@@ -181,9 +181,9 @@ HeirarchalListScene = function() {
 
     this.show_back = false;
 
-    this.current_menu_0 = -1;
-    this.current_menu_1 = -1;
-    this.viewMenus();
+    this.current_parent_0 = -1;
+    this.current_parent_1 = -1;
+    this.viewItems();
     this.title = "";
 }
 
@@ -203,8 +203,8 @@ HeirarchalListScene.prototype.drawHandler = function() {
 
 HeirarchalListScene.prototype.mouseDownHandler = function(x,y) {
     if(x<50&&y<50) {
-        if(this.current_menu_0 != -1) {
-            this.viewMenus(-1,-1);
+        if(this.current_parent_0 != -1) {
+            this.viewItems(-1,-1);
             this.show_back = false;
             return;
         }
@@ -212,43 +212,43 @@ HeirarchalListScene.prototype.mouseDownHandler = function(x,y) {
     ListScene.prototype.mouseDownHandler.call(this,x,y)
 }
 
-HeirarchalListScene.prototype.viewMenus = function(m0,m1) {
-    if( m0 == undefined ) {
-      m0 = this.current_menu_0;
+HeirarchalListScene.prototype.viewItems = function(p0,p1) {
+    if( p0 == undefined ) {
+      p0 = this.current_parent_0;
     }
-    if( m1 == undefined ) {
-      m1 = this.current_menu_1;
+    if( p1 == undefined ) {
+      p1 = this.current_parent_1;
     }
-    this.viewableMenus = new Array();
+    this.viewableItems = new Array();
     this.listData = new Array();
     for( var i=0, length=this.heirarchalData.length; i<length; i++) {
         var it = this.heirarchalData[i];
-        if( it.menu_0 == m0 && it.menu_1 == m1) {
+        if( it.parent_0 == p0 && it.parent_1 == p1) {
             this.listData.push(it.name);
-            this.viewableMenus.push(it.id);
+            this.viewableItems.push(it.id);
         }
     }
-    this.current_menu_0 = m0;
-    this.current_menu_1 = m1;
+    this.current_parent_0 = p0;
+    this.current_parent_1 = p1;
 
-    if( this.current_menu_0 != -1) {
+    if( this.current_parent_0 != -1) {
         this.show_back = true;
     }
     this.listPage = 0;
 }
 
 HeirarchalListScene.prototype.itemTouched = function(i) {
-    var touched_menu = this.viewableMenus[i];
-    if(this.hasMoreMenus(i)) {
-        this.viewMenus(touched_menu,-1);
+    var touched_item = this.viewableItems[i];
+    if(this.hasMoreChildItems(i)) {
+        this.viewItems(touched_item,-1);
         draw();
     }
     else {
-        this.leafItemTouched(this.getMenuItemById(touched_menu));
+        this.leafItemTouched(this.getHeirarchalItemById(touched_item));
     }
 }
 
-HeirarchalListScene.prototype.getMenuItemById = function(id) {
+HeirarchalListScene.prototype.getHeirarchalItemById = function(id) {
     for( var i=0, length=this.heirarchalData.length; i<length; i++) {
         var it = this.heirarchalData[i];
         if( it.id == id) {
@@ -258,8 +258,8 @@ HeirarchalListScene.prototype.getMenuItemById = function(id) {
     return null;
 }
 
-HeirarchalListScene.prototype.hasMoreMenus = function(i) {
-    return this.current_menu_0 == -1;
+HeirarchalListScene.prototype.hasMoreChildItems = function(i) {
+    return this.current_parent_0 == -1;
 }
 
 HeirarchalListScene.prototype.leafItemTouched = function(item) {
