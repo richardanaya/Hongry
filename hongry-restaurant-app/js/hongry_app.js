@@ -150,10 +150,8 @@ OurStoryScene.prototype.mouseDownHandler = function(x, y) {
 
 
 MenuListScene = function() {
-    ListScene.call(this);
-    this.heightOffset = 50;
-    this.maxPageItems = 7;
-    this.menu = [
+    HeirarchalListScene.call(this);
+    this.heirarchalData = [
             {menu_0:-1,menu_1:-1,id:0 ,name:"Tacos"},
             {menu_0:-1,menu_1:-1,id:1 ,name:"Breakfast"},
             {menu_0:-1,menu_1:-1,id:2 ,name:"Eats & Treats"},
@@ -201,61 +199,13 @@ MenuListScene = function() {
             {menu_0:6,menu_1:-1,id:44,name:"Roja"}
     ]; 
 
-    this.show_back = false;
-
-    this.current_menu_0 = -1;
-    this.current_menu_1 = -1;
-    this.viewMenus(-1,-1);
-
+    this.title = "Menu";
+    this.viewMenus();
 }
 
-MenuListScene.prototype = new ListScene;                // Define sub-class
+MenuListScene.prototype = new HeirarchalListScene;                // Define sub-class
 MenuListScene.prototype.constructor = MenuListScene;
 
-MenuListScene.prototype.drawHandler = function() {
-    ListScene.prototype.drawHandler.call(this)
-    ctx.drawImage(imgListItem,0,0,WIDTH,50);
-    drawString("MENU", WIDTH/2-getStringWidth("MENU")/2,15,WIDTH,50);
-
-    if(this.show_back) {
-        ctx.drawImage(imgButton,0,0,50,50);
-        drawString("Back", 5,20,50,50);
-    }
-}
-
-MenuListScene.prototype.mouseDownHandler = function(x,y) {
-    ListScene.prototype.mouseDownHandler.call(this,x,y)
-    if(x<50&&y<50) {
-        if(this.current_menu_0 != -1) {
-            this.viewMenus(-1,-1);
-            this.show_back = false;
-        }
-    }
-}
-
-MenuListScene.prototype.viewMenus = function(m0,m1) {
-    this.viewableMenus = new Array();
-    this.listData = new Array();
-    for( var i=0, length=this.menu.length; i<length; i++) {
-        var it = this.menu[i];
-        if( it.menu_0 == m0 && it.menu_1 == m1) {
-            this.listData.push(it.name);
-            this.viewableMenus.push(it.id);
-        }
-    }
-    this.current_menu_0 = m0;
-    this.current_menu_1 = m1;
-
-    if( this.current_menu_0 != -1) {
-        this.show_back = true;
-    }
-    this.listPage = 0;
-}
-
-MenuListScene.prototype.itemTouched = function(i) {
-    var touched_menu = this.viewableMenus[i];
-    if(this.current_menu_0 == -1) {
-        this.viewMenus(touched_menu,-1);
-        draw();
-    }
+MenuListScene.prototype.leafItemTouched = function(item) {
+    alert('leaf item pressed '+item.name);    
 }
