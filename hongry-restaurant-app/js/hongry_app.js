@@ -27,6 +27,8 @@ $(document).ready(function() {
     imgUp.src = "/img/up.gif";
     imgDown = new Image();
     imgDown.src = "/img/down.gif";
+    imgTacos = new Image();
+    imgTacos.src = "/img/tacos.jpg";
     $(imgFont).load(function() {
         init();
     });
@@ -148,6 +150,22 @@ OurStoryScene.prototype.mouseDownHandler = function(x, y) {
       }
 }
 
+MenuItemScene = function(id) {
+    this.menuItemData = getMenuItemData(id);
+}
+
+MenuItemScene.prototype.drawHandler = function() {
+      drawButtons();
+      ctx.drawImage(imgTacos,20,20);
+      drawString(""+this.menuItemData.id+" "+this.menuItemData.name,0,0,200,50);
+}
+
+MenuItemScene.prototype.mouseDownHandler = function(x, y) {
+      if(!handleButtons(x,y)) {
+        //do something
+      }
+}
+
 
 MenuListScene = function() {
     HeirarchalListScene.call(this);
@@ -207,5 +225,9 @@ MenuListScene.prototype = new HeirarchalListScene;                // Define sub-
 MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
-    alert('leaf item pressed '+item.name);    
+    currentScene = new MenuItemScene(item.id);
+}
+
+getMenuItemData = function(id) {
+  return {id:id,name:"Queso and chips"};
 }
