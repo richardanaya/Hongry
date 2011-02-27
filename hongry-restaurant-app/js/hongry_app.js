@@ -21,20 +21,33 @@ $(document).ready(function() {
     imgMore.src = "/img/more.png";
     imgSpecials = new Image();
     imgSpecials.src = "/img/specials.png";
+    imgFontGreen = new Image();
+    imgFontGreen.src = "/img/font_green.png";
+    imgFontBlack = new Image();
+    imgFontBlack.src = "/img/font_black.png";
     imgFont = new Image();
     imgFont.src = "/img/font.png";
     imgUp = new Image();
     imgUp.src = "/img/up.gif";
     imgDown = new Image();
     imgDown.src = "/img/down.gif";
+    imgStar = new Image();
+    imgStar.src = "/img/star.png";
+    imgVoteChecked = new Image();
+    imgVoteChecked.src = "/img/vote_checked.png";
+    imgVoteUnchecked = new Image();
+    imgVoteUnchecked.src = "/img/vote_unchecked.png";
+    imgSeparator = new Image();
+    imgSeparator.src = "/img/separator.png";
     imgTacos = new Image();
     imgTacos.src = "/img/tacos.jpg";
-    $(imgFont).load(function() {
+    $(imgTacos).load(function() {
         init();
-    });
+    })
 });
 
 init = function() {
+    FONT = imgFont;
     canvas = document.getElementById("mainContent");
     if (canvas.getContext) {
         ctx = canvas.getContext("2d");
@@ -58,8 +71,7 @@ init = function() {
 }
 
 draw = function() {
-    clear(BLACK);
-    ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
+    clear(WHITE);
     if( currentScene != null ) {
         currentScene.drawHandler();
     }
@@ -117,6 +129,7 @@ FrontPageScene = function () {
 }
 
 FrontPageScene.prototype.drawHandler = function() {
+    ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
 ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,65);
 drawButtons();
 ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
@@ -137,6 +150,7 @@ OurStoryScene = function() {
 }
 
 OurStoryScene.prototype.drawHandler = function() {
+      ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
       ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,5);
       drawButtons();
       ctx.drawImage(imgListItem,20,imgLogo.height+10,WIDTH-40,imgLogo.height+10+14);
@@ -150,14 +164,39 @@ OurStoryScene.prototype.mouseDownHandler = function(x, y) {
       }
 }
 
-MenuItemScene = function(id) {
-    this.menuItemData = getMenuItemData(id);
+MenuItemScene = function(menuItemData) {
+    this.menuItemData = menuItemData;
+    this.title = "Menu"
 }
 
 MenuItemScene.prototype.drawHandler = function() {
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0,0,320,480);
       drawButtons();
-      ctx.drawImage(imgTacos,20,20);
-      drawString(""+this.menuItemData.id+" "+this.menuItemData.name,0,0,200,50);
+      ctx.drawImage(imgListItem,0,0,WIDTH,45);
+      ctx.drawImage(imgListItem,0,0,WIDTH,45);
+      ctx.drawImage(imgListItem,0,0,WIDTH,45);
+      drawString(this.title, WIDTH/2-getStringWidth(this.title)/2,12,WIDTH,45);
+      ctx.drawImage(imgButton,7,7,50,30);
+      drawString("Back", 17,15,50,30);
+      ctx.drawImage(imgTacos,0,0,imgTacos.width,imgTacos.height,10,NAV_BAR_HEIGHT+10,300,200);
+      FONT = imgFontGreen;
+      
+      drawString(this.menuItemData.price.toUpperCase(),260,NAV_BAR_HEIGHT+200+25,200,50);
+      FONT = imgFontBlack;
+      drawString(this.menuItemData.name.toUpperCase(),15,NAV_BAR_HEIGHT+200+25,200,50);
+
+      drawString(this.menuItemData.description,15,NAV_BAR_HEIGHT+200+10+40,280,75);
+      ctx.drawImage(imgStar,25, NAV_BAR_HEIGHT+350);
+      drawString(this.menuItemData.votes+" Votes",50,NAV_BAR_HEIGHT+352,200,50);
+      if( this.menuItemData.voted ) {
+        ctx.drawImage(imgVoteChecked,200, NAV_BAR_HEIGHT+345);
+      }
+      else {
+        ctx.drawImage(imgVoteUnchecked,200, NAV_BAR_HEIGHT+345);
+      }
+      ctx.drawImage(imgSeparator,10, NAV_BAR_HEIGHT+325);
+      FONT = imgFont;
 }
 
 MenuItemScene.prototype.mouseDownHandler = function(x, y) {
@@ -177,7 +216,7 @@ MenuListScene = function() {
             {parent_0:-1,parent_1:-1,id:4 ,name:"Sides"},
             {parent_0:-1,parent_1:-1,id:5 ,name:"Drinks"},
             {parent_0:-1,parent_1:-1,id:6 ,name:"Hot Sauces"},
-            {parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork"},
+            {parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork", description: "Delicious shredded pork with our house special sauce", votes: 9, price: "$7.98", voted: true},
             {parent_0:0,parent_1:-1,id:8,name:"Fried Avocado"},
             {parent_0:0,parent_1:-1,id:9 ,name:"Trailer Park"},
             {parent_0:0,parent_1:-1,id:10,name:"Crossroads"},
@@ -225,7 +264,7 @@ MenuListScene.prototype = new HeirarchalListScene;                // Define sub-
 MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
-    currentScene = new MenuItemScene(item.id);
+    currentScene = new MenuItemScene(this.heirarchalData[item.id]);
 }
 
 getMenuItemData = function(id) {

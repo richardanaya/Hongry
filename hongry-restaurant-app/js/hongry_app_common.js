@@ -1,7 +1,10 @@
 var WIDTH = 320;
 var HEIGHT = 480;
+var NAV_BAR_HEIGHT = 45;
 var BAR_HEIGHT = HEIGHT-48;
 var BLACK = "rgb(0,0,0)"
+var WHITE = "rgb(255,255,255)";
+var GRAY = "#25272b";
 var canvas,ctx;
 var currentScene;
 var mouseDown = false;
@@ -85,6 +88,8 @@ ListScene = function() {
 }
 
 ListScene.prototype.drawHandler = function() {
+    ctx.fillStyle = GRAY;
+    ctx.fillRect(0,0,320,480);
     drawButtons();
 
     var info = this.getPageInfo();
