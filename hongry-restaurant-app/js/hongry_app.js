@@ -201,12 +201,19 @@ MenuItemScene.prototype.drawHandler = function() {
 
 MenuItemScene.prototype.mouseDownHandler = function(x, y) {
       if(!handleButtons(x,y)) {
-        //do something
+        if( x < 70 && y < 45) {
+            currentScene = new MenuListScene(this.menuItemData);
+        }
+        if( (!this.menuItemData.voted) && (x >= 200) && (x <= 200+imgVoteUnchecked.width) && (y >= NAV_BAR_HEIGHT+325) && (y<= NAV_BAR_HEIGHT+325+imgVoteUnchecked.height+20)) {
+            this.menuItemData.voted = true;
+            this.menuItemData.votes += 1;
+            draw();
+        }
       }
 }
 
 
-MenuListScene = function() {
+MenuListScene = function(menuItemData) {
     HeirarchalListScene.call(this);
     this.heirarchalData = [
             {parent_0:-1,parent_1:-1,id:0 ,name:"Tacos"},
@@ -216,7 +223,7 @@ MenuListScene = function() {
             {parent_0:-1,parent_1:-1,id:4 ,name:"Sides"},
             {parent_0:-1,parent_1:-1,id:5 ,name:"Drinks"},
             {parent_0:-1,parent_1:-1,id:6 ,name:"Hot Sauces"},
-            {parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork", description: "Delicious shredded pork with our house special sauce", votes: 9, price: "$7.98", voted: true},
+            {parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork", description: "Delicious shredded pork with our house special sauce", votes: 9, price: "$7.98", voted: false},
             {parent_0:0,parent_1:-1,id:8,name:"Fried Avocado"},
             {parent_0:0,parent_1:-1,id:9 ,name:"Trailer Park"},
             {parent_0:0,parent_1:-1,id:10,name:"Crossroads"},
@@ -258,6 +265,17 @@ MenuListScene = function() {
 
     this.title = "Menu";
     this.viewItems();
+    
+    if( menuItemData ) {
+        for(var i=0,len=this.heirarchalData.length;i<len;i++){
+            if(this.heirarchalData[i].id == menuItemData.id) {
+                this.viewItems(menuItemData.parent_0,menuItemData.parent_1);
+            }
+        }
+    }
+    else {
+        this.viewItems();
+    }
 }
 
 MenuListScene.prototype = new HeirarchalListScene;                // Define sub-class
