@@ -26,7 +26,7 @@ $(document).ready(function() {
     imgFontBlack = new Image();
     imgFontBlack.src = "/img/font_black.png";
     imgFont = new Image();
-    imgFont.src = "/img/font.png";
+    imgFont.src = "/img/font_white.png";
     imgUp = new Image();
     imgUp.src = "/img/up.gif";
     imgDown = new Image();
@@ -47,7 +47,10 @@ $(document).ready(function() {
 });
 
 init = function() {
-    FONT = imgFont;
+    FONT_WHITE_12 = new FontRenderer(imgFont);
+    FONT_BLACK_12 = new FontRenderer(imgFontBlack);
+    FONT_GREEN_12 = new FontRenderer(imgFontGreen);
+    FONT = FONT_WHITE_12;
     canvas = document.getElementById("mainContent");
     if (canvas.getContext) {
         ctx = canvas.getContext("2d");
@@ -180,10 +183,10 @@ MenuItemScene.prototype.drawHandler = function() {
       ctx.drawImage(imgButton,7,7,50,30);
       drawString("Back", 17,15,50,30);
       ctx.drawImage(imgTacos,0,0,imgTacos.width,imgTacos.height,10,NAV_BAR_HEIGHT+10,300,200);
-      FONT = imgFontGreen;
+      FONT = FONT_GREEN_12;
       
       drawString(this.menuItemData.price.toUpperCase(),260,NAV_BAR_HEIGHT+200+25,200,50);
-      FONT = imgFontBlack;
+      FONT = FONT_BLACK_12;
       drawString(this.menuItemData.name.toUpperCase(),15,NAV_BAR_HEIGHT+200+25,200,50);
 
       drawString(this.menuItemData.description,15,NAV_BAR_HEIGHT+200+10+40,280,75);
@@ -196,7 +199,7 @@ MenuItemScene.prototype.drawHandler = function() {
         ctx.drawImage(imgVoteUnchecked,200, NAV_BAR_HEIGHT+345);
       }
       ctx.drawImage(imgSeparator,10, NAV_BAR_HEIGHT+325);
-      FONT = imgFont;
+      FONT = FONT_WHITE_12;
 }
 
 MenuItemScene.prototype.mouseDownHandler = function(x, y) {
