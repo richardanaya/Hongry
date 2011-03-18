@@ -118,6 +118,9 @@ function drawStringHelper(text, x, y) {
 				tw += nw;
 				i++;
 			}
+			if( maxed ) {
+			  row++;
+			}
 
 			row++;
 		}
