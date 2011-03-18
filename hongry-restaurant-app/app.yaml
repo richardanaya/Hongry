@@ -11,4 +11,4 @@ handlers:
 - url: /img
   static_dir: img
 - url: .*
-  script: main.py
+  script: lib/run_server.py

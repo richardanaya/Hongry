@@ -105,6 +105,7 @@ if( y >= BAR_HEIGHT && y <=BAR_HEIGHT+48){
     currentScene = new MenuListScene();
   }
   if(i == 3) {
+    window.open('maps://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=torchies+tacos&aq=&sll=37.0625,-95.677068&sspn=27.781434,63.720703&ie=UTF8&hq=torchies+tacos&hnear=&ll=30.25195,-97.753944&spn=0.110917,0.248909&t=h&z=12');
     //scene = new WaitingScene();
   }
   return true;
