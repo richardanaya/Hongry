@@ -6,7 +6,7 @@ function clear(color){
   }
 
 function drawStringHelper(text, x, y) {
-    FONT.drawText(ctx,text,x,y);
+    FONT.drawText(ctx,text,Math.floor(x),Math.floor(y));
   }
 
   function getStringWidth(text) {

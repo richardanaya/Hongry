@@ -85,9 +85,14 @@ ListScene = function() {
     this.maxPageItems = 8;
     this.heightOffset = 0;
     this.itemHeight = 50;
+    this.FONT = null;
 }
 
 ListScene.prototype.drawHandler = function() {
+    var oldFont = FONT;
+    if( FONT != null ) {
+    	FONT = this.FONT;
+    }
     ctx.fillStyle = GRAY;
     ctx.fillRect(0,0,320,480);
     drawButtons();
@@ -103,7 +108,10 @@ ListScene.prototype.drawHandler = function() {
 
     for(var i = info.startItem; i < info.endItem; i++) {
       ctx.drawImage(imgListItem,0,this.heightOffset+this.itemHeight*j,WIDTH,this.itemHeight);
-      drawString(this.listData[i], 5,this.heightOffset+this.itemHeight*j+5,WIDTH-10,40);
+      var s = this.listData[i];
+      var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
+      var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
+      drawString(s, 5+offsetX,this.heightOffset+this.itemHeight*j+5+offsetY,WIDTH-10,40);
       j++
     }
 
@@ -111,6 +119,8 @@ ListScene.prototype.drawHandler = function() {
         ctx.drawImage(imgListItem,0,this.heightOffset+this.itemHeight*j,WIDTH,this.itemHeight);
         ctx.drawImage(imgDown,(WIDTH-11)/2,this.heightOffset+this.itemHeight*j+(this.itemHeight-11)/2);
     }
+
+    FONT = oldFont;
 }
 
 ListScene.prototype.getPageInfo = function() {
@@ -196,9 +206,14 @@ HeirarchalListScene.prototype = new ListScene;                // Define sub-clas
 HeirarchalListScene.prototype.constructor = HeirarchalListScene;
 
 HeirarchalListScene.prototype.drawHandler = function() {
+    var oldFont = FONT;
+    if( this.FONT != null ) {
+    	FONT = this.FONT;
+    }
     ListScene.prototype.drawHandler.call(this)
     ctx.drawImage(imgListItem,0,0,WIDTH,45);
     drawString(this.title, WIDTH/2-getStringWidth(this.title)/2,12,WIDTH,45);
+    FONT = oldFont;
 
     if(this.show_back) {
         ctx.drawImage(imgButton,7,7,50,30);

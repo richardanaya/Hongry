@@ -27,6 +27,8 @@ $(document).ready(function() {
     imgFontBlack.src = "/img/font_black.png";
     imgFont = new Image();
     imgFont.src = "/img/font_white.png";
+    imgFontBig = new Image();
+    imgFontBig.src = "/img/font_white_big.png";
     imgUp = new Image();
     imgUp.src = "/img/up.gif";
     imgDown = new Image();
@@ -48,6 +50,7 @@ $(document).ready(function() {
 
 init = function() {
     FONT_WHITE_12 = new FontRenderer(imgFont);
+    FONT_WHITE_BIG = new FontRenderer(imgFontBig);
     FONT_BLACK_12 = new FontRenderer(imgFontBlack);
     FONT_GREEN_12 = new FontRenderer(imgFontGreen);
     FONT = FONT_WHITE_12;
@@ -173,6 +176,8 @@ MenuItemScene = function(menuItemData) {
 }
 
 MenuItemScene.prototype.drawHandler = function() {
+      var oldFont = FONT;
+      FONT = FONT_WHITE_BIG;
       ctx.fillStyle = WHITE;
       ctx.fillRect(0,0,320,480);
       drawButtons();
@@ -180,6 +185,7 @@ MenuItemScene.prototype.drawHandler = function() {
       ctx.drawImage(imgListItem,0,0,WIDTH,45);
       ctx.drawImage(imgListItem,0,0,WIDTH,45);
       drawString(this.title, WIDTH/2-getStringWidth(this.title)/2,12,WIDTH,45);
+      FONT = oldFont;
       ctx.drawImage(imgButton,7,7,50,30);
       drawString("Back", 17,15,50,30);
       ctx.drawImage(imgTacos,0,0,imgTacos.width,imgTacos.height,10,NAV_BAR_HEIGHT+10,300,200);
@@ -268,6 +274,7 @@ MenuListScene = function(menuItemData) {
 
     this.title = "Menu";
     this.viewItems();
+    this.FONT = FONT_WHITE_BIG;
     
     if( menuItemData ) {
         for(var i=0,len=this.heirarchalData.length;i<len;i++){
