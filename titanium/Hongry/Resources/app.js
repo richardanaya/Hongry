@@ -1,6 +1,5 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
-
 /*Titanium.API.info(Titanium.Filesystem.applicationDataDirectory);
 var path = Titanium.Filesystem.applicationDataDirectory+"/myFile.txt"
 var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'myFile.txt');
@@ -8,7 +7,9 @@ f.write('this is the new file');
 var g = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'myFile.txt');
 var contents = g.read();
 Titanium.API.info("Contents of the file = " + contents.text);*/
-var webview = Titanium.UI.createWebView({url:'http://code-sandbox.appspot.com'});
+var path = Titanium.Filesystem.resourcesDirectory+"/www/index.html";
+Titanium.API.info(path);
+var webview = Titanium.UI.createWebView({url:path});
 var win3 = Titanium.UI.createWindow({navBarHidden:true});
 win3.add(webview);
 win3.open({modal:true});
