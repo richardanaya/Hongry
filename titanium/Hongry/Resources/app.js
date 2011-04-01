@@ -1,64 +1,39 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
-// create tab group
-var tabGroup = Titanium.UI.createTabGroup();
+/*Titanium.API.info(Titanium.Filesystem.applicationDataDirectory);
+var path = Titanium.Filesystem.applicationDataDirectory+"/myFile.txt"
+var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'myFile.txt');
+f.write('this is the new file');
+var g = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'myFile.txt');
+var contents = g.read();
+Titanium.API.info("Contents of the file = " + contents.text);*/
+var webview = Titanium.UI.createWebView({url:'http://code-sandbox.appspot.com'});
+var win3 = Titanium.UI.createWindow({navBarHidden:true});
+win3.add(webview);
+win3.open({modal:true});
+/*var url = 'http://www.codeboxed.com';
+        // Initialize the HTTPClient object
+	var httpClient = Titanium.Network.createHTTPClient();
+        
+        // Connect to the url above
+	if (httpClient.open('GET', url)) {
+                // Create the temporary file
+                // Set the path to desktop directory in our case
+		var filePath = 	Titanium.Filesystem.getDesktopDirectory().toString()+
+						Titanium.Filesystem.getSeparator()+
+						'index.html';
+                // Copy the temporary file to our path
+		file.copy(filePath);
 
-
-//
-// create base UI tab and root window
-//
-var win1 = Titanium.UI.createWindow({  
-    title:'Tab 1',
-    backgroundColor:'#fff'
-});
-var tab1 = Titanium.UI.createTab({  
-    icon:'KS_nav_views.png',
-    title:'Tab 1',
-    window:win1
-});
-
-var label1 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 1',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
-});
-
-win1.add(label1);
-
-//
-// create controls tab and root window
-//
-var win2 = Titanium.UI.createWindow({  
-    title:'Tab 2',
-    backgroundColor:'#fff'
-});
-var tab2 = Titanium.UI.createTab({  
-    icon:'KS_nav_ui.png',
-    title:'Tab 2',
-    window:win2
-});
-
-var label2 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 2',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
-});
-
-win2.add(label2);
-
-
-
-//
-//  add tabs
-//
-tabGroup.addTab(tab1);  
-tabGroup.addTab(tab2);  
-
-
-// open tab group
-tabGroup.open();
+                // Handle the reveived data (Titanium.Filesystem.File can also be used as a handler)
+		httpClient.receive(function(data) {
+			var file = Titanium.Filesystem.getFile(window['filePath']);
+                        // Open the file created before and write to it the received data
+			var fileStream = file.open(Titanium.Filesystem.MODE_APPEND);
+			fileStream.write(data);
+			fileStream.close();
+		});
+	} else {
+		Titanium.API.info('cannot open connection');
+	}*/

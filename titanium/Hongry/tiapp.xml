@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.hongry.app</id>
-    <name>Hongry</name>
-    <version>1.0</version>
-    <publisher>not specified</publisher>
-    <url>not specified</url>
-    <description>not specified</description>
-    <copyright>not specified</copyright>
-    <icon>appicon.png</icon>
+<id>com.hongry.hongryapp</id>
+<name>Hongry</name>
+<version>1.1</version>
+<publisher>Richard</publisher>
+<url>http://www.hongry.com</url>
+<description>No description provided</description>
+<copyright>2011 by Richard</copyright>
+<icon>default_app_logo.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
-    <statusbar-hidden>false</statusbar-hidden>
-    <fullscreen>false</fullscreen>
-    <navbar-hidden>false</navbar-hidden>
+    <statusbar-hidden>true</statusbar-hidden>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
     <analytics>true</analytics>
-<guid>b938ba3d-7dbb-4a2c-91cf-4dfd37fce91c</guid>
+<guid>0f7068e9-6b5b-4353-8352-7d63cb4e0eef</guid>
 	<iphone>
 		<orientations device="iphone">
 			<orientation>Ti.UI.PORTRAIT</orientation>
