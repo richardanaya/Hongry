@@ -27,6 +27,8 @@ $(document).ready(function() {
     imgFontBlack.src = "/img/font_black.png";
     imgFont = new Image();
     imgFont.src = "/img/font_white.png";
+    imgFont16 = new Image();
+    imgFont16.src = "/img/font_white_16.png";
     imgFontBig = new Image();
     imgFontBig.src = "/img/font_white_big.png";
     imgUp = new Image();
@@ -50,6 +52,7 @@ $(document).ready(function() {
 
 init = function() {
     FONT_WHITE_12 = new FontRenderer(imgFont);
+    FONT_WHITE_16 = new FontRenderer(imgFont16);
     FONT_WHITE_BIG = new FontRenderer(imgFontBig);
     FONT_BLACK_12 = new FontRenderer(imgFontBlack);
     FONT_GREEN_12 = new FontRenderer(imgFontGreen);
@@ -276,6 +279,8 @@ MenuListScene = function(menuItemData) {
     this.title = "Menu";
     this.viewItems();
     this.FONT = FONT_WHITE_BIG;
+    this.maxPageItems = 6;
+    this.itemHeight = 66;
     
     if( menuItemData ) {
         for(var i=0,len=this.heirarchalData.length;i<len;i++){
@@ -294,6 +299,32 @@ MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
     currentScene = new MenuItemScene(this.heirarchalData[item.id]);
+}
+
+MenuListScene.prototype.drawItemHandler = function(item,i) {
+    if( !item.description ) {
+        var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
+        var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
+        drawString(item.name, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
+    }
+    else {
+        var oldFont = FONT;
+        FONT = FONT_WHITE_16;
+        var offsetX = 0;
+        var offsetY = 5
+        drawString(item.name, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
+        offsetX = 250;
+        offsetY = 0
+        drawString(item.price, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
+        FONT = FONT_WHITE_12;
+        offsetX = 0;
+        offsetY = 24;
+        drawString(item.description, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-100,60);
+        offsetX = WIDTH-70;
+        offsetY = 35;
+        drawString(item.votes+' votes', 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-100,60);
+        FONT = oldFont;
+    }
 }
 
 getMenuItemData = function(id) {

@@ -109,9 +109,7 @@ ListScene.prototype.drawHandler = function() {
     for(var i = info.startItem; i < info.endItem; i++) {
       ctx.drawImage(imgListItem,0,this.heightOffset+this.itemHeight*j,WIDTH,this.itemHeight);
       var s = this.listData[i];
-      var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
-      var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
-      drawString(s, 5+offsetX,this.heightOffset+this.itemHeight*j+5+offsetY,WIDTH-10,40);
+      this.drawItemHandler(s,j)
       j++
     }
 
@@ -121,6 +119,12 @@ ListScene.prototype.drawHandler = function() {
     }
 
     FONT = oldFont;
+}
+
+ListScene.prototype.drawItemHandler = function(item,i) {
+    var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
+    var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
+    drawString(item.name, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
 }
 
 ListScene.prototype.getPageInfo = function() {
@@ -244,7 +248,7 @@ HeirarchalListScene.prototype.viewItems = function(p0,p1) {
     for( var i=0, length=this.heirarchalData.length; i<length; i++) {
         var it = this.heirarchalData[i];
         if( it.parent_0 == p0 && it.parent_1 == p1) {
-            this.listData.push(it.name);
+            this.listData.push(it);
             this.viewableItems.push(it.id);
         }
     }
