@@ -1,7 +1,8 @@
 var WIDTH = 320;
 var HEIGHT = 480;
-var NAV_BAR_HEIGHT = 48;
-var BAR_HEIGHT = HEIGHT-48;
+var NAV_BAR_HEIGHT = 45;
+var TAB_BAR_HEIGHT = 48;
+var BAR_HEIGHT = HEIGHT-TAB_BAR_HEIGHT;
 var BLACK = "rgb(0,0,0)"
 var WHITE = "rgb(255,255,255)";
 var GRAY = "#25272b";
@@ -81,6 +82,16 @@ changeScene = function(scene) {
     currentScene = scene;
     draw();
 } 
+
+var oldFonts = [];
+
+pushFont = function() {
+    oldFonts.push(FONT);
+}
+
+popFont = function() {
+    FONT = oldFonts.pop();
+}
 
 ListScene = function() {
     this.listData = new Array();
@@ -184,8 +195,10 @@ ListScene.prototype.mouseDownHandler = function(x,y) {
             var touchedItem = info.startItem+i;
             if( this.listPage > 0 ) {
                 touchedItem -= 1;
-            }
-            this.itemTouched(touchedItem);
+	    }
+	    if( touchedItem >= 0 && touchedItem < this.listData.length ) {
+		this.itemTouched(touchedItem);
+	    }
         }
     }
 }
@@ -196,7 +209,7 @@ ListScene.prototype.itemTouched = function(index) {
 
 HeirarchalListScene = function() {
     ListScene.call(this);
-    this.heightOffset = 45;
+    this.heightOffset = NAV_BAR_HEIGHT;
     this.maxPageItems = 7;
     this.itemHeight = 55;
     this.heirarchalData = [];
@@ -218,8 +231,8 @@ HeirarchalListScene.prototype.drawHandler = function() {
     	FONT = this.FONT;
     }
     ListScene.prototype.drawHandler.call(this)
-    ctx.drawImage(imgListItem,0,0,WIDTH,45);
-    drawString(this.title, WIDTH/2-getStringWidth(this.title)/2,12,WIDTH,45);
+    ctx.drawImage(imgListItem,0,0,WIDTH,NAV_BAR_HEIGHT);
+    drawString(this.title, WIDTH/2-getStringWidth(this.title)/2,12,WIDTH,NAV_BAR_HEIGHT);
     FONT = oldFont;
 
     if(this.show_back) {

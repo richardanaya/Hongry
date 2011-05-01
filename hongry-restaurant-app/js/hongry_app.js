@@ -216,7 +216,7 @@ MenuItemScene.prototype.drawHandler = function() {
 MenuItemScene.prototype.mouseDownHandler = function(x, y) {
       if(!handleButtons(x,y)) {
         if( x < 70 && y < 45) {
-            currentScene = new MenuListScene(this.menuItemData);
+            changeScene(new MenuListScene(this.menuItemData));
         }
         if( (!this.menuItemData.voted) && (x >= 200) && (x <= 200+imgVoteUnchecked.width) && (y >= NAV_BAR_HEIGHT+325) && (y<= NAV_BAR_HEIGHT+325+imgVoteUnchecked.height+20)) {
             this.menuItemData.voted = true;
@@ -349,7 +349,7 @@ MoreScene.prototype.itemTouched = function(index) {
 
 SpecialsScene = function() {
     ListScene.call(this);
-    this.listData = [ {name:"Buy 1 Taco Get 2 Free"}];
+    this.listData = [ {name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south"}];
     this.FONT = FONT_WHITE_BIG;
 }
 
@@ -357,4 +357,42 @@ SpecialsScene.prototype = new ListScene();
 SpecialsScene.prototype.constructor = SpecialsScene;
 
 SpecialsScene.prototype.itemTouched = function(index) {
+    changeScene(new SpecialItemScene(this.listData[index]));
 }
+
+SpecialItemScene = function(item) {
+    this.item = item;
+}
+
+drawNavBar = function(title,leftButton) {
+    pushFont();
+    FONT = FONT_WHITE_BIG;
+    ctx.drawImage(imgListItem,0,0,WIDTH,NAV_BAR_HEIGHT);
+    drawString(title, WIDTH/2-getStringWidth(title)/2,12,WIDTH,NAV_BAR_HEIGHT);
+    FONT = FONT_WHITE_12;
+    if( leftButton != undefined ) {
+	ctx.drawImage(imgButton,7,7,50,30);
+	drawString(leftButton, 17,15,50,30);
+    }
+    popFont();
+}
+
+SpecialItemScene.prototype.drawHandler = function() {
+    pushFont();
+    ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
+    ctx.drawImage(imgListItem,20,NAV_BAR_HEIGHT+20,WIDTH-40,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40);
+    drawString(this.item.text,imgListItem,20,NAV_BAR_HEIGHT+20,WIDTH-40,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40);
+    var padding = 10;
+    FONT = FONT_WHITE_BIG; 
+    drawString(this.item.text,20+padding,NAV_BAR_HEIGHT+20+padding,WIDTH-40-2*padding,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40-2*padding);
+    drawNavBar('Specials','Back');
+    drawButtons();
+    popFont();
+}
+
+SpecialItemScene.prototype.mouseDownHandler = function(x, y) {
+    if( x < 70 && y < 45) {
+	changeScene(new SpecialsScene());
+    }
+}
+
