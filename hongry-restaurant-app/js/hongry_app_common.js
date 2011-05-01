@@ -1,6 +1,6 @@
 var WIDTH = 320;
 var HEIGHT = 480;
-var NAV_BAR_HEIGHT = 45;
+var NAV_BAR_HEIGHT = 48;
 var BAR_HEIGHT = HEIGHT-48;
 var BLACK = "rgb(0,0,0)"
 var WHITE = "rgb(255,255,255)";
@@ -77,7 +77,10 @@ if(currentScene != null && currentScene.mouseMoveHandler != null){
 draw();
 }
 
-
+changeScene = function(scene) {
+    currentScene = scene;
+    draw();
+} 
 
 ListScene = function() {
     this.listData = new Array();
@@ -90,7 +93,7 @@ ListScene = function() {
 
 ListScene.prototype.drawHandler = function() {
     var oldFont = FONT;
-    if( FONT != null ) {
+    if( this.FONT != null ) {
     	FONT = this.FONT;
     }
     ctx.fillStyle = GRAY;
@@ -123,7 +126,7 @@ ListScene.prototype.drawHandler = function() {
 
 ListScene.prototype.drawItemHandler = function(item,i) {
     var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
-    var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
+    var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(item.name)-10)/2);
     drawString(item.name, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
 }
 
@@ -187,7 +190,7 @@ ListScene.prototype.mouseDownHandler = function(x,y) {
     }
 }
 
-ListScene.prototype.itemTouched = function(i) {
+ListScene.prototype.itemTouched = function(index) {
 
 }
 

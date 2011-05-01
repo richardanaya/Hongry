@@ -12,15 +12,15 @@ $(document).ready(function() {
     imgButtonPressed = new Image();
     imgButtonPressed.src = "img/button_background_pressed.png";
     imgHome = new Image();
-    imgHome.src = "img/home.png";
+    imgHome.src = "img/tab_bar_home.png";
     imgLocations = new Image();
-    imgLocations.src = "img/locations.png";
+    imgLocations.src = "img/tab_bar_locations.png";
     imgMenu = new Image();
-    imgMenu.src = "img/menu.png";
+    imgMenu.src = "img/tab_bar_menu.png";
     imgMore = new Image();
-    imgMore.src = "img/more.png";
+    imgMore.src = "img/tab_bar_more.png";
     imgSpecials = new Image();
-    imgSpecials.src = "img/specials.png";
+    imgSpecials.src = "img/tab_bar_specials.png";
     imgFontGreen = new Image();
     imgFontGreen.src = "img/font_green.png";
     imgFontBlack = new Image();
@@ -74,9 +74,7 @@ init = function() {
     if( !iphone_found) {
         addClickHandlers();
     }
-    currentScene = new FrontPageScene();
-    
-    draw();
+    changeScene(new FrontPageScene());
 }
 
 draw = function() {
@@ -99,17 +97,20 @@ if( y >= BAR_HEIGHT && y <=BAR_HEIGHT+48){
   pressed = [false,false,false,false,false];
   pressed[i] = true;
   if(i == 0) {
-    currentScene = new FrontPageScene();
+    changeScene(new FrontPageScene());
   }
-  if(i == 1) {
-    currentScene = new OurStoryScene();
+  else if(i == 1) {
+    window.open('maps://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=torchies+tacos&aq=&sll=37.0625,-95.677068&sspn=27.781434,63.720703&ie=UTF8&hq=torchys+tacos&hnear=&ll=30.25195,-97.753944&spn=0.110917,0.248909&t=h&z=12');
   }
-  if( i  == 2) {
-    currentScene = new MenuListScene();
+  else if( i  == 2) {
+    changeScene(new MenuListScene());
   }
-  if(i == 3) {
-    window.open('maps://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=torchies+tacos&aq=&sll=37.0625,-95.677068&sspn=27.781434,63.720703&ie=UTF8&hq=torchies+tacos&hnear=&ll=30.25195,-97.753944&spn=0.110917,0.248909&t=h&z=12');
+  else if(i == 3) {
+    changeScene(new SpecialsScene());
     //scene = new WaitingScene();
+  }
+  else if(i == 4) {
+      changeScene(new MoreScene());
   }
   return true;
 }
@@ -130,8 +131,8 @@ function drawButtons(){
     drawButton(imgHome,0,BAR_HEIGHT,pressed[0]);
     drawButton(imgLocations,64,BAR_HEIGHT,pressed[1]);
     drawButton(imgMenu,128,BAR_HEIGHT,pressed[2]);
-    drawButton(imgMore,192,BAR_HEIGHT,pressed[3]);
-    drawButton(imgSpecials,256,BAR_HEIGHT,pressed[4]);
+    drawButton(imgSpecials,192,BAR_HEIGHT,pressed[3]);
+    drawButton(imgMore,256,BAR_HEIGHT,pressed[4]);
 }
 
 FrontPageScene = function () {
@@ -140,12 +141,12 @@ FrontPageScene = function () {
 
 FrontPageScene.prototype.drawHandler = function() {
     ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
-ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,65);
-drawButtons();
-ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
-drawString("On Wednesday, december 15th from 7-10pm join us at the South Austin Trailer Park",(320-200)/2,287,200,40);
-ctx.drawImage(imgListItem,(320-250)/2,330,250,45);
-drawString("Come try this months special!",(320-200)/2,337,200,40);
+    ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,65);
+    drawButtons();
+    ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
+    drawString("On Wednesday, december 15th from 7-10pm join us at the South Austin Trailer Park",(320-200)/2,287,200,40);
+    ctx.drawImage(imgListItem,(320-250)/2,330,250,45);
+    drawString("Come try this months special!",(320-200)/2,337,200,40);
 }
 
 FrontPageScene.prototype.mouseDownHandler = function(x,y) {
@@ -280,7 +281,7 @@ MenuListScene = function(menuItemData) {
     this.viewItems();
     this.FONT = FONT_WHITE_BIG;
     this.maxPageItems = 6;
-    this.itemHeight = 66;
+    this.itemHeight = 65;
     
     if( menuItemData ) {
         for(var i=0,len=this.heirarchalData.length;i<len;i++){
@@ -294,7 +295,7 @@ MenuListScene = function(menuItemData) {
     }
 }
 
-MenuListScene.prototype = new HeirarchalListScene;                // Define sub-class
+MenuListScene.prototype = new HeirarchalListScene();                // Define sub-class
 MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
@@ -329,4 +330,31 @@ MenuListScene.prototype.drawItemHandler = function(item,i) {
 
 getMenuItemData = function(id) {
   return {id:id,name:"Queso and chips"};
+}
+
+MoreScene = function() {
+    ListScene.call(this);
+    this.listData = [ {name:"Our Story"}];
+    this.FONT = FONT_WHITE_BIG;
+}
+
+MoreScene.prototype = new ListScene();
+MoreScene.prototype.constructor = MoreScene;
+
+MoreScene.prototype.itemTouched = function(index) {
+    if( index == 0 ) {
+	changeScene(new OurStoryScene());
+    }
+}
+
+SpecialsScene = function() {
+    ListScene.call(this);
+    this.listData = [ {name:"Buy 1 Taco Get 2 Free"}];
+    this.FONT = FONT_WHITE_BIG;
+}
+
+SpecialsScene.prototype = new ListScene();
+SpecialsScene.prototype.constructor = SpecialsScene;
+
+SpecialsScene.prototype.itemTouched = function(index) {
 }
