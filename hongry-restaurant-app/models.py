@@ -1,8 +1,10 @@
 #Domain models go here
 from google.appengine.ext import db
+import rest
 
 class RestaurantImage(db.Model):
     image_data = db.StringProperty()
+
 
 class Restaurant(db.Model):
     name = db.StringProperty()
@@ -23,4 +25,8 @@ class RestaurantSpecial(db.Model):
     text = db.StringProperty()
     image = db.ReferenceProperty(RestaurantImage)
 
+
+rest.Dispatcher.add_models({
+  "restaurant": Restaurant,
+  })
 

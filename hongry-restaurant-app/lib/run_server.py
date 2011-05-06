@@ -15,6 +15,7 @@ if __name__ == '__main__':
     sys.path.insert(0, 'lib.zip')
     import cherrypy
     import website
+    import models
     current_dir = os.path.dirname(os.path.abspath(__file__))
     config={
         'global':{
@@ -29,10 +30,11 @@ if __name__ == '__main__':
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(current_dir,"js") },
         }
-    app = cherrypy.tree.mount(website.Root(), "/",config)
-    run_wsgi_app(app)
-    
-    
+
     rest_app = webapp.WSGIApplication([('/rest/.*', rest.Dispatcher)])
     rest.Dispatcher.base_url = "/rest"
-    #run_wsgi_app(rest_app)
+    cherrypy.tree.graft(rest_app,'/rest')
+    cherrypy.tree.mount(website.Root(), "/",config)
+    run_wsgi_app(cherrypy.tree)
+    
+    
