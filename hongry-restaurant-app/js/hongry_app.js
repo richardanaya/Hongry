@@ -1,12 +1,8 @@
 var pressed = [false, false,false, false,false,false];
 
 $(document).ready(function() {
-    imgLogo = new Image();
-    imgLogo.src = "img/venue_logo.png";
     imgListItem = new Image();
     imgListItem.src = "img/list_item.png";
-    imgBackground = new Image();
-    imgBackground.src = "img/background.png";
     imgButton = new Image();
     imgButton.src = "img/button_background.png";
     imgButtonPressed = new Image();
@@ -43,10 +39,20 @@ $(document).ready(function() {
     imgVoteUnchecked.src = "img/vote_unchecked.png";
     imgSeparator = new Image();
     imgSeparator.src = "img/separator.png";
+
+
+    imgBackground = new Image();
+    imgBackground.src = "img/background.png";
+    imgLogo = new Image();
+    imgLogo.src = "img/venue_logo.png";
     imgTacos = new Image();
     imgTacos.src = "img/tacos.jpg";
+
+
     $(imgTacos).load(function() {
 	restaurant_data = {
+	    image_background: 0,
+	    image_logo:1,
 	    announcement_0: "On Wednesday, december 15th from 7-10pm join us at the South Austin Trailer Park",
 	    announcement_1: "Come try this months special!",
 	    our_story:     "As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner conssts of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course. As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner consists of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course.",
@@ -99,7 +105,7 @@ $(document).ready(function() {
 		{parent_0:6,parent_1:-1,id:44,name:"Roja"}
 	    ],
 	    specials: [
-		{name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south",img:imgTacos}
+		{name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south",img:2}
 	    ]
 	};
 
@@ -108,6 +114,12 @@ $(document).ready(function() {
 
 
     });
+
+getImage = function(index) {
+    if( index == 0 ) { return imgBackground; }
+    else if( index == 1 ) { return imgLogo; }
+    else if( index == 2 ) { return imgTacos; }
+}
 
 init = function() {
     FONT_WHITE_12 = new FontRenderer(imgFont);
@@ -200,8 +212,9 @@ FrontPageScene = function () {
 }
 
 FrontPageScene.prototype.drawHandler = function() {
-    ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
-    ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,65);
+    ctx.drawImage(getImage(restaurant_data.image_background),0,0,WIDTH,HEIGHT);
+    var logoImage = getImage(restaurant_data.image_logo);
+    ctx.drawImage(logoImage,(WIDTH-logoImage.width)/2,65);
     drawButtons();
     ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
     drawString(restaurant_data.announcement_0,(320-200)/2,287,200,40);
@@ -217,15 +230,17 @@ FrontPageScene.prototype.mouseDownHandler = function(x,y) {
 OurStoryScene = function() {
     this.text = restaurant_data.our_story;
     this.currentPage = 0;
-    this.pages = countPages(this.text,WIDTH-54,imgLogo.height+10);
+    var logoImage = getImage(restaurant_data.image_logo);
+    this.pages = countPages(this.text,WIDTH-54,logoImage.height+10);
 }
 
 OurStoryScene.prototype.drawHandler = function() {
-      ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
-      ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,5);
+      ctx.drawImage(getImage(restaurant_data.image_background),0,0,WIDTH,HEIGHT);
+      var logoImage = getImage(restaurant_data.image_logo);
+      ctx.drawImage(logoImage,(WIDTH-logoImage.width)/2,5);
       drawButtons();
-      ctx.drawImage(imgListItem,20,imgLogo.height+10,WIDTH-40,imgLogo.height+10+14);
-      drawStringPage(this.text,27,imgLogo.height+10+7,WIDTH-54,imgLogo.height+10,this.currentPage);
+      ctx.drawImage(imgListItem,20,logoImage.height+10,WIDTH-40,logoImage.height+10+14);
+      drawStringPage(this.text,27,logoImage.height+10+7,WIDTH-54,logoImage.height+10,this.currentPage);
 }
 
 OurStoryScene.prototype.mouseDownHandler = function(x, y) {
@@ -244,7 +259,7 @@ MenuItemScene.prototype.drawHandler = function() {
       var oldFont = FONT;
       FONT = FONT_WHITE_BIG;
       ctx.fillStyle = WHITE;
-      ctx.fillRect(0,0,320,480);
+      ctx.fillRect(0,0,WIDTH,HEIGHT);
       drawButtons();
       ctx.drawImage(imgListItem,0,0,WIDTH,45);
       ctx.drawImage(imgListItem,0,0,WIDTH,45);
@@ -253,7 +268,8 @@ MenuItemScene.prototype.drawHandler = function() {
       FONT = oldFont;
       ctx.drawImage(imgButton,7,7,50,30);
       drawString("Back", 17,15,50,30);
-      ctx.drawImage(imgTacos,0,0,imgTacos.width,imgTacos.height,10,NAV_BAR_HEIGHT+10,300,200);
+      var itemImg = getImage(2);
+      ctx.drawImage(itemImg,0,0,itemImg.width,itemImg.height,10,NAV_BAR_HEIGHT+10,300,200);
       FONT = FONT_GREEN_12;
       
       drawString(this.menuItemData.price.toUpperCase(),260,NAV_BAR_HEIGHT+200+25,200,50);
@@ -389,17 +405,21 @@ SpecialItemScene = function(item) {
     this.currentPage = 0;
     pushFont();
     FONT = FONT_WHITE_BIG;
-    this.pages = countPages(this.item.text,WIDTH-54,imgLogo.height+10);
+    var w = WIDTH-40;
+    var h = 150;
+    this.pages = countPages(this.item.text,w,h);
     popFont();
 }
 
 SpecialItemScene.prototype.drawHandler = function() {
     pushFont();
     FONT = FONT_WHITE_BIG;
-    ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
+    var specialImage = getImage(this.item.img);
+    var backgroundImage = getImage(restaurant_data.image_background);
+    ctx.drawImage(backgroundImage,0,0,WIDTH,HEIGHT);
     var w = WIDTH-40;
     var h = 150;
-    ctx.drawImage(this.item.img,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
+    ctx.drawImage(specialImage,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
     drawButtons();
     ctx.drawImage(imgListItem,20,h+30,WIDTH-40,h+70+14);
     drawStringPage(this.item.text,35,h+30+7,WIDTH-60,h+70,this.currentPage);
