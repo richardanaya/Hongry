@@ -46,8 +46,11 @@ $(document).ready(function() {
     imgTacos = new Image();
     imgTacos.src = "img/tacos.jpg";
     $(imgTacos).load(function() {
-        init();
 	restaurant_data = {
+	    announcement_0: "On Wednesday, december 15th from 7-10pm join us at the South Austin Trailer Park",
+	    announcement_1: "Come try this months special!",
+	    our_story:     "As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner conssts of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course. As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner consists of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course.",
+	    map_link: 'maps://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=torchies+tacos&aq=&sll=37.0625,-95.677068&sspn=27.781434,63.720703&ie=UTF8&hq=torchys+tacos&hnear=&ll=30.25195,-97.753944&spn=0.110917,0.248909&t=h&z=12',
 	    menu: [
 		{parent_0:-1,parent_1:-1,id:0 ,name:"Tacos"},
 		{parent_0:-1,parent_1:-1,id:1 ,name:"Breakfast"},
@@ -99,6 +102,8 @@ $(document).ready(function() {
 		{name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south",img:imgTacos}
 	    ]
 	};
+
+        init();
     })
 
 
@@ -154,7 +159,8 @@ function handleButtons(x, y) {
     changeScene(new FrontPageScene());
   }
   else if(i == 1) {
-    window.open('maps://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=torchies+tacos&aq=&sll=37.0625,-95.677068&sspn=27.781434,63.720703&ie=UTF8&hq=torchys+tacos&hnear=&ll=30.25195,-97.753944&spn=0.110917,0.248909&t=h&z=12');
+      var link = restaurant_data.map_link;
+      window.open(link);
   }
   else if( i  == 2) {
     changeScene(new MenuListScene());
@@ -198,9 +204,9 @@ FrontPageScene.prototype.drawHandler = function() {
     ctx.drawImage(imgLogo,(WIDTH-imgLogo.width)/2,65);
     drawButtons();
     ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
-    drawString("On Wednesday, december 15th from 7-10pm join us at the South Austin Trailer Park",(320-200)/2,287,200,40);
+    drawString(restaurant_data.announcement_0,(320-200)/2,287,200,40);
     ctx.drawImage(imgListItem,(320-250)/2,330,250,45);
-    drawString("Come try this months special!",(320-200)/2,337,200,40);
+    drawString(restaurant_data.announcement_1,(320-200)/2,337,200,40);
 }
 
 FrontPageScene.prototype.mouseDownHandler = function(x,y) {
@@ -209,7 +215,7 @@ FrontPageScene.prototype.mouseDownHandler = function(x,y) {
 
 
 OurStoryScene = function() {
-    this.text = "As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner conssts of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course. As a man of the people, I generally like my tacos to be as flavorless and devoid of textural accompaniment as possible. My usual 'taco' dinner consists of a thin corn-constituted 'tortilla' lightly peppered with asparagus-paste beans, all shrouded beneath a healthy portion of water reed stalks- in deference to the indigenous tradition, of course.";
+    this.text = restaurant_data.our_story;
     this.currentPage = 0;
     this.pages = countPages(this.text,WIDTH-54,imgLogo.height+10);
 }
@@ -303,7 +309,7 @@ MenuListScene = function(menuItemData) {
     }
 }
 
-MenuListScene.prototype = new HeirarchalListScene();                // Define sub-class
+MenuListScene.prototype = new HeirarchalListScene();
 MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
@@ -312,7 +318,7 @@ MenuListScene.prototype.leafItemTouched = function(item) {
 
 MenuListScene.prototype.drawItemHandler = function(item,i) {
     if( !item.description ) {
-        var offsetX = 0;//Math.floor((WIDTH-FONT.getTextWidth(s)-20)/2);
+	var offsetX = 0;
         var offsetY = Math.floor((this.itemHeight-FONT.getTextHeight(s)-10)/2);
         drawString(item.name, 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-10,40);
     }
@@ -334,10 +340,6 @@ MenuListScene.prototype.drawItemHandler = function(item,i) {
         drawString(item.votes+' votes', 5+offsetX,this.heightOffset+this.itemHeight*i+5+offsetY,WIDTH-100,60);
         FONT = oldFont;
     }
-}
-
-getMenuItemData = function(id) {
-  return {id:id,name:"Queso and chips"};
 }
 
 MoreScene = function() {
