@@ -47,8 +47,62 @@ $(document).ready(function() {
     imgTacos.src = "img/tacos.jpg";
     $(imgTacos).load(function() {
         init();
+	restaurant_data = {
+	    menu: [
+		{parent_0:-1,parent_1:-1,id:0 ,name:"Tacos"},
+		{parent_0:-1,parent_1:-1,id:1 ,name:"Breakfast"},
+		{parent_0:-1,parent_1:-1,id:2 ,name:"Eats & Treats"},
+		{parent_0:-1,parent_1:-1,id:3 ,name:"Chips y Dips"},
+		{parent_0:-1,parent_1:-1,id:4 ,name:"Sides"},
+		{parent_0:-1,parent_1:-1,id:5 ,name:"Drinks"},
+		{parent_0:-1,parent_1:-1,id:6 ,name:"Hot Sauces"},
+		{parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork", description: "Delicious shredded pork with our house special sauce", votes: 9, price: "$7.98", voted: false},
+		{parent_0:0,parent_1:-1,id:8,name:"Fried Avocado"},
+		{parent_0:0,parent_1:-1,id:9 ,name:"Trailer Park"},
+		{parent_0:0,parent_1:-1,id:10,name:"Crossroads"},
+		{parent_0:0,parent_1:-1,id:11,name:"Mr. Pink"},
+		{parent_0:0,parent_1:-1,id:12,name:"Beef Fajitas"},
+		{parent_0:0,parent_1:-1,id:13,name:"Chicken Fajita"},
+		{parent_0:0,parent_1:-1,id:14,name:"Ranch Hand"},
+		{parent_0:0,parent_1:-1,id:15,name:"Dirty Sanchez"},
+		{parent_0:0,parent_1:-1,id:16,name:"Brush Fire"},
+		{parent_0:0,parent_1:-1,id:17,name:"Baja Shrimp"},
+		{parent_0:0,parent_1:-1,id:18,name:"The Democrat"},
+		{parent_0:0,parent_1:-1,id:19,name:"The Republican"},
+		{parent_0:1,parent_1:-1,id:20,name:"Migas"},
+		{parent_0:1,parent_1:-1,id:21,name:"Monk Special"},
+		{parent_0:1,parent_1:-1,id:22,name:"Breakfast Tacos"},
+		{parent_0:2,parent_1:-1,id:23,name:"Fajita Plate"},
+		{parent_0:2,parent_1:-1,id:24,name:"Grande Burrito"},
+		{parent_0:2,parent_1:-1,id:25,name:"Love Puppies"},
+		{parent_0:2,parent_1:-1,id:26,name:"Little Nookies"},
+		{parent_0:3,parent_1:-1,id:27,name:"Green Chili Queso & Chips"},
+		{parent_0:3,parent_1:-1,id:28,name:"Chips & Guacomole"},
+		{parent_0:3,parent_1:-1,id:29,name:"Chips & Salsa"},
+		{parent_0:4,parent_1:-1,id:30,name:"Guacamole"},
+		{parent_0:4,parent_1:-1,id:31,name:"Salsa"},
+		{parent_0:4,parent_1:-1,id:32,name:"Pico de Gallo"},
+		{parent_0:4,parent_1:-1,id:33,name:"Rice"},
+		{parent_0:4,parent_1:-1,id:34,name:"Beans"},
+		{parent_0:5,parent_1:-1,id:35,name:"Speciality Sodas"},
+		{parent_0:5,parent_1:-1,id:36,name:"Fountain Drinks"},
+		{parent_0:5,parent_1:-1,id:37,name:"Drinks"},
+		{parent_0:5,parent_1:-1,id:38,name:"Coffee"},
+		{parent_0:5,parent_1:-1,id:39,name:"Iced Tea"},
+		{parent_0:6,parent_1:-1,id:40,name:"Diablo"},
+		{parent_0:6,parent_1:-1,id:41,name:"Chipotle"},
+		{parent_0:6,parent_1:-1,id:42,name:"Poblano"},
+		{parent_0:6,parent_1:-1,id:43,name:"Tomatillo"},
+		{parent_0:6,parent_1:-1,id:44,name:"Roja"}
+	    ],
+	    specials: [
+		{name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south",img:imgTacos}
+	    ]
+	};
     })
-});
+
+
+    });
 
 init = function() {
     FONT_WHITE_12 = new FontRenderer(imgFont);
@@ -59,20 +113,20 @@ init = function() {
     FONT = FONT_WHITE_12;
     canvas = document.getElementById("mainContent");
     if (canvas.getContext) {
-        ctx = canvas.getContext("2d");
+	ctx = canvas.getContext("2d");
     }
 
 
     var iphone_found = false;
     if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-       if (document.cookie.indexOf("iphone_redirect=false") == -1) {
-           addTouchHandlers();
-           iphone_found = true;
-       }
+	if (document.cookie.indexOf("iphone_redirect=false") == -1) {
+	    addTouchHandlers();
+	    iphone_found = true;
+	}
     }
 
     if( !iphone_found) {
-        addClickHandlers();
+	addClickHandlers();
     }
     changeScene(new FrontPageScene());
 }
@@ -80,20 +134,20 @@ init = function() {
 draw = function() {
     clear(WHITE);
     if( currentScene != null ) {
-        currentScene.drawHandler();
+	currentScene.drawHandler();
     }
     else {
-        if( drawHandler != null ) {
-          drawHandler();
-        }
+	if( drawHandler != null ) {
+	    drawHandler();
+	}
     }
 }
 
 
 
 function handleButtons(x, y) {
-i = Math.floor(x/64);
-if( y >= BAR_HEIGHT && y <=BAR_HEIGHT+48){
+    i = Math.floor(x/64);
+    if( y >= BAR_HEIGHT && y <=BAR_HEIGHT+48){
   pressed = [false,false,false,false,false];
   pressed[i] = true;
   if(i == 0) {
@@ -229,53 +283,7 @@ MenuItemScene.prototype.mouseDownHandler = function(x, y) {
 
 MenuListScene = function(menuItemData) {
     HeirarchalListScene.call(this);
-    this.heirarchalData = [
-            {parent_0:-1,parent_1:-1,id:0 ,name:"Tacos"},
-            {parent_0:-1,parent_1:-1,id:1 ,name:"Breakfast"},
-            {parent_0:-1,parent_1:-1,id:2 ,name:"Eats & Treats"},
-            {parent_0:-1,parent_1:-1,id:3 ,name:"Chips y Dips"},
-            {parent_0:-1,parent_1:-1,id:4 ,name:"Sides"},
-            {parent_0:-1,parent_1:-1,id:5 ,name:"Drinks"},
-            {parent_0:-1,parent_1:-1,id:6 ,name:"Hot Sauces"},
-            {parent_0:0,parent_1:-1,id:7 ,name:"Green Chili Pork", description: "Delicious shredded pork with our house special sauce", votes: 9, price: "$7.98", voted: false},
-            {parent_0:0,parent_1:-1,id:8,name:"Fried Avocado"},
-            {parent_0:0,parent_1:-1,id:9 ,name:"Trailer Park"},
-            {parent_0:0,parent_1:-1,id:10,name:"Crossroads"},
-            {parent_0:0,parent_1:-1,id:11,name:"Mr. Pink"},
-            {parent_0:0,parent_1:-1,id:12,name:"Beef Fajitas"},
-            {parent_0:0,parent_1:-1,id:13,name:"Chicken Fajita"},
-            {parent_0:0,parent_1:-1,id:14,name:"Ranch Hand"},
-            {parent_0:0,parent_1:-1,id:15,name:"Dirty Sanchez"},
-            {parent_0:0,parent_1:-1,id:16,name:"Brush Fire"},
-            {parent_0:0,parent_1:-1,id:17,name:"Baja Shrimp"},
-            {parent_0:0,parent_1:-1,id:18,name:"The Democrat"},
-            {parent_0:0,parent_1:-1,id:19,name:"The Republican"},
-            {parent_0:1,parent_1:-1,id:20,name:"Migas"},
-            {parent_0:1,parent_1:-1,id:21,name:"Monk Special"},
-            {parent_0:1,parent_1:-1,id:22,name:"Breakfast Tacos"},
-            {parent_0:2,parent_1:-1,id:23,name:"Fajita Plate"},
-            {parent_0:2,parent_1:-1,id:24,name:"Grande Burrito"},
-            {parent_0:2,parent_1:-1,id:25,name:"Love Puppies"},
-            {parent_0:2,parent_1:-1,id:26,name:"Little Nookies"},
-            {parent_0:3,parent_1:-1,id:27,name:"Green Chili Queso & Chips"},
-            {parent_0:3,parent_1:-1,id:28,name:"Chips & Guacomole"},
-            {parent_0:3,parent_1:-1,id:29,name:"Chips & Salsa"},
-            {parent_0:4,parent_1:-1,id:30,name:"Guacamole"},
-            {parent_0:4,parent_1:-1,id:31,name:"Salsa"},
-            {parent_0:4,parent_1:-1,id:32,name:"Pico de Gallo"},
-            {parent_0:4,parent_1:-1,id:33,name:"Rice"},
-            {parent_0:4,parent_1:-1,id:34,name:"Beans"},
-            {parent_0:5,parent_1:-1,id:35,name:"Speciality Sodas"},
-            {parent_0:5,parent_1:-1,id:36,name:"Fountain Drinks"},
-            {parent_0:5,parent_1:-1,id:37,name:"Drinks"},
-            {parent_0:5,parent_1:-1,id:38,name:"Coffee"},
-            {parent_0:5,parent_1:-1,id:39,name:"Iced Tea"},
-            {parent_0:6,parent_1:-1,id:40,name:"Diablo"},
-            {parent_0:6,parent_1:-1,id:41,name:"Chipotle"},
-            {parent_0:6,parent_1:-1,id:42,name:"Poblano"},
-            {parent_0:6,parent_1:-1,id:43,name:"Tomatillo"},
-            {parent_0:6,parent_1:-1,id:44,name:"Roja"}
-    ]; 
+    this.heirarchalData = restaurant_data.menu; 
 
     this.title = "Menu";
     this.viewItems();
@@ -349,7 +357,7 @@ MoreScene.prototype.itemTouched = function(index) {
 
 SpecialsScene = function() {
     ListScene.call(this);
-    this.listData = [ {name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south"}];
+    this.listData = restaurant_data.specials; 
     this.FONT = FONT_WHITE_BIG;
 }
 
@@ -358,10 +366,6 @@ SpecialsScene.prototype.constructor = SpecialsScene;
 
 SpecialsScene.prototype.itemTouched = function(index) {
     changeScene(new SpecialItemScene(this.listData[index]));
-}
-
-SpecialItemScene = function(item) {
-    this.item = item;
 }
 
 drawNavBar = function(title,leftButton) {
@@ -377,22 +381,34 @@ drawNavBar = function(title,leftButton) {
     popFont();
 }
 
+
+SpecialItemScene = function(item) {
+    this.item = item;
+    this.currentPage = 0;
+    pushFont();
+    FONT = FONT_WHITE_BIG;
+    this.pages = countPages(this.item.text,WIDTH-54,imgLogo.height+10);
+    popFont();
+}
+
 SpecialItemScene.prototype.drawHandler = function() {
     pushFont();
+    FONT = FONT_WHITE_BIG;
     ctx.drawImage(imgBackground,0,0,WIDTH,HEIGHT);
-    ctx.drawImage(imgListItem,20,NAV_BAR_HEIGHT+20,WIDTH-40,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40);
-    drawString(this.item.text,imgListItem,20,NAV_BAR_HEIGHT+20,WIDTH-40,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40);
-    var padding = 10;
-    FONT = FONT_WHITE_BIG; 
-    drawString(this.item.text,20+padding,NAV_BAR_HEIGHT+20+padding,WIDTH-40-2*padding,HEIGHT-NAV_BAR_HEIGHT-TAB_BAR_HEIGHT-40-2*padding);
-    drawNavBar('Specials','Back');
+    var w = WIDTH-40;
+    var h = 150;
+    ctx.drawImage(this.item.img,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
     drawButtons();
+    ctx.drawImage(imgListItem,20,h+30,WIDTH-40,h+70+14);
+    drawStringPage(this.item.text,35,h+30+7,WIDTH-60,h+70,this.currentPage);
     popFont();
 }
 
 SpecialItemScene.prototype.mouseDownHandler = function(x, y) {
-    if( x < 70 && y < 45) {
-	changeScene(new SpecialsScene());
-    }
+      if(!handleButtons(x,y)) {
+              this.currentPage++;
+              this.currentPage %= this.pages;
+      }
 }
+
 
