@@ -108,7 +108,6 @@ $(document).ready(function() {
 		{name:"Buy 1 Taco Get 2 Free",text:"Come in to Torchy's Tacos south",img:2}
 	    ]
 	};
-
         init();
     })
 
@@ -179,7 +178,6 @@ function handleButtons(x, y) {
   }
   else if(i == 3) {
     changeScene(new SpecialsScene());
-    //scene = new WaitingScene();
   }
   else if(i == 4) {
       changeScene(new MoreScene());
