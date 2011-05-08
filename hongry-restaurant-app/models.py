@@ -25,7 +25,6 @@ class RestaurantSpecial(db.Model):
     text = db.StringProperty()
     image = db.ReferenceProperty(RestaurantImage)
 
-
 rest.Dispatcher.add_models({
   "restaurant_image": RestaurantImage,
   "restaurant": Restaurant,
