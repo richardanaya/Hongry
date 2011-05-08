@@ -5,11 +5,14 @@ from lib.util import *
 class Root(object):
     @cherrypy.expose
     def index(self):
+	r = RestaurantImage()
+	r.image_data = "blah"
+	r.put()
         return render("index.html",{"name":"Richard"})
     
     @cherrypy.expose
-    def restaurant(self):
-        return render("restaurant.html",{"name":"Richard"})
+    def restaurant(self,restaurant_id="TORCHY"):
+        return render("restaurant.html",{"restaurant_id":restaurant_id})
 
     @cherrypy.expose
     def restaurant_data(self):

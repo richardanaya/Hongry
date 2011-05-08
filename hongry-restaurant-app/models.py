@@ -27,6 +27,7 @@ class RestaurantSpecial(db.Model):
 
 
 rest.Dispatcher.add_models({
+  "restaurant_image": RestaurantImage,
   "restaurant": Restaurant,
   })
 
