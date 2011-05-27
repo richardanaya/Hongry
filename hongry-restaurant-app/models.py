@@ -14,16 +14,15 @@ class Restaurant(db.Model):
     announcement_1 = db.StringProperty()
     our_story = db.StringProperty()
     map_link = db.StringProperty()
-
-class RestaurantMenuItem(db.Model):
-    parent_0 = db.IntegerProperty()
-    parent_1 = db.IntegerProperty()
-    name = db.StringProperty()
-
-class RestaurantSpecial(db.Model):
-    name = db.StringProperty()
-    text = db.StringProperty()
-    image = db.ReferenceProperty(RestaurantImage)
+    specials_name = db.StringListProperty()
+    specials_text = db.StringListProperty()
+    menuitem_parent_0 = db.StringListProperty()
+    menuitem_parent_1 = db.StringListProperty()
+    menuitem_id = db.StringListProperty()
+    menuitem_name = db.StringListProperty()
+    menuitem_description = db.StringListProperty()
+    menuitem_votes = db.StringListProperty()
+    menuitem_price = db.StringListProperty()
 
 rest.Dispatcher.add_models({
   "restaurant_image": RestaurantImage,
