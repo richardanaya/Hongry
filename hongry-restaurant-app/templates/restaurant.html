@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block main_content %}
+<div id="new_restaurant" class="hidden">
+    You don't seem to have a restaurant setup for this id yet.  Would you like to create one? <a href="#" onclick="create_restaurant('{{ restaurant_id }}');">Create Restaurant App</a>
+</div>
+<div id="restaurant" class="hidden">
+    {{ restuarant_id }}
+    Announcement #1: <input id="restaurant_announcement_0" type="text"/><br/>
+    Announcement #2: <input id="restaurant_announcement_1" type="text"/><br/>
+    Map Link: <input id="restaurant_map_link" type="text"/><br/>
+    Our Story:<br/>
+    <textarea id="restaurant_our_story"></textarea><br/>
+
+    <h3>Menu Item</h3>   
+    Parent 0: <input id="mi_p0_0" type="text"/><br/>
+    Parent 1: <input id="mi_p1_0" type="text"/><br/>
+    ID: <input id="mi_id_0" type="text"/><br/>
+    Name: <input id="mi_name_0" type="text"/><br/>
+    Description: <input id="mi_description_0" type="text"/><br/>
+    Votes: <input id="mi_votes_0" type="text"/><br/>
+    Price: <input id="mi_price_0" type="text"/><br/>
+
+
+    <h3>Specials</h3>   
+    Special #1 Header: <input id="special_header_0" type="text"/><br/>
+    Special #1 Text: <input id="special_text_0" type="text"/><br/>
+    Special #2 Header: <input id="special_header_1" type="text"/><br/>
+    Special #2 Text: <input id="special_text_1" type="text"/><br/>
+    Special #3 Header: <input id="special_header_2" type="text"/><br/>
+    Special #3 Text: <input id="special_text_2" type="text"/><br/>
+    <input id="restaurant_save" type="submit" value="Save">
+</div>
+<script>
+    var current_restaurant = null;
+
+    create_restaurant = function(id) {
+	var data = { "restaurant":{"name": id}};
+	$.ajax({
+	    type: "POST",
+	    contentType: 'application/json',
+	    url:'http://localhost:8083/rest/restaurant',
+	    data: JSON.stringify(data),
+	    success: function(result) {
+		current_restaurant = data;
+		current_restaurant.key = result;
+		$('#new_restaurant').toggleClass('hidden');
+		load_restaurant(current_restaurant);
+	    }
+	});
+    }
+
+    load_restaurant = function() {
+	 $('#restaurant_announcement_0').val(current_restaurant.announcement_0);
+	 $('#restaurant_announcement_1').val(current_restaurant.announcement_1);
+	 $('#restaurant_map_link').val(current_restaurant.map_link);
+	 $('#restaurant_our_story').val(current_restaurant.our_story);
+	 $('#restaurant').toggleClass('hidden');
+	 var length = current_restaurant.specials_name.item.length;
+	 for( var i = 0 ; i < length; i++ )
+	 {
+	    vs('#special_header_'+i,current_restaurant.specials_name,i);
+	    vs('#special_text_'+i,current_restaurant.specials_text,i);
+	 }
+	
+	 var length = current_restaurant.menuitem_id.item.length;
+	 for( var i = 0 ; i < length; i++ )
+	 {
+	    vs('#mi_p0_'+i,current_restaurant.menuitem_parent_0,i);
+	    vs('#mi_p1_'+i,current_restaurant.menuitem_parent_1,i);
+	    vs('#mi_id_'+i,current_restaurant.menuitem_id,i);
+	    vs('#mi_name_'+i,current_restaurant.menuitem_name,i);
+	    vs('#mi_description_'+i,current_restaurant.menuitem_description,i);
+	    vs('#mi_votes_'+i,current_restaurant.menuitem_votes,i);
+	    vs('#mi_price_'+i,current_restaurant.menuitem_price,i);
+	 }
+
+    }
+
+    vs = function(id,vals,i) {
+	if (vals.constructor.toString().indexOf("Array") == -1) {
+	    $(id).val(vals.item);
+	}
+	else {
+	    $(id).val(vals.item[i]);
+	}
+    }
+
+    v = function(id) {
+	return $(id).val();
+    }
+
+    save_restaurant = function() {
+	current_restaurant.announcement_0 = $('#restaurant_announcement_0').val();
+	current_restaurant.announcement_1 = $('#restaurant_announcement_1').val();
+	current_restaurant.map_link = $('#restaurant_map_link').val();
+	current_restaurant.our_story = $('#restaurant_our_story').val();
+	current_restaurant.specials_name = {'item':[v('#special_header_0'),v('#special_header_1'),v('#special_header_2')]};
+	current_restaurant.specials_text = {'item':[v('#special_text_0'),v('#special_text_1'),v('#special_text_2')]};
+	current_restaurant.menuitem_parent_0 = {'item':[v('#mi_p0_0')]};
+	current_restaurant.menuitem_parent_1 = {'item':[v('#mi_p1_0')]};
+	current_restaurant.menuitem_id = {'item':[v('#mi_id_0')]};
+	current_restaurant.menuitem_name = {'item':[v('#mi_name_0')]};
+	current_restaurant.menuitem_description = {'item':[v('#mi_description_0')]};
+	current_restaurant.menuitem_votes = {'item':[v('#mi_votes_0')]};
+	current_restaurant.menuitem_price = {'item':[v('#mi_price_0')]};
+
+	var data = {'list': { 'restaurant': current_restaurant }};
+	$.ajax({
+	    type: "PUT",
+	    contentType: 'application/json',
+	    url:'http://localhost:8083/rest/restaurant',
+	    data: JSON.stringify(data),
+	    success: function(result) {
+		alert('updated');
+	    },
+	    error: function(result) {
+		alert('er');
+	    }
+	});
+
+    }
+
+    start = function() {
+	$('#restaurant_save').click(save_restaurant);
+	$.getJSON('http://localhost:8083/rest/restaurant?feq_name={{ restaurant_id }}',
+	function(data) { 
+	    if( data.list.restaurant ) {
+		current_restaurant = data.list.restaurant;
+		load_restaurant();
+	    }
+	    else {
+		$('#new_restaurant').toggleClass('hidden');
+	    }
+	}
+	);
+    }
+    $(document).ready(start);
+</script>
+{% endblock %}
