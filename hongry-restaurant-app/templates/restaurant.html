@@ -1,34 +1,72 @@
-{% extends "base.html" %}
-{% block main_content %}
+{% extends "master.html" %}
+{% block content %}
+<style>
+    #our_story_div {
+	float: right;
+    }
+    #restaurant_our_story {
+	height: 100px;
+    }
+
+    h3 { 
+	margin-bottom: 5px;
+	font-size: 24px;
+    }
+    #general_info_div {
+	height: 160px;
+    }
+    .special_div {
+	border: solid 1px #CCC;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+    }
+
+    .texbox_normal {
+	height: 20px;
+	width: 200px;
+    }
+    .texbox_long {
+	height: 20px;
+	width: 300px;
+    }
+    .texbox_very_long {
+	height: 20px;
+	width: 500px;
+    }
+</style>
 <div id="new_restaurant" class="hidden">
     You don't seem to have a restaurant setup for this id yet.  Would you like to create one? <a href="#" onclick="create_restaurant('{{ restaurant_id }}');">Create Restaurant App</a>
 </div>
 <div id="restaurant" class="hidden">
     {{ restuarant_id }}
-    Announcement #1: <input id="restaurant_announcement_0" type="text"/><br/>
-    Announcement #2: <input id="restaurant_announcement_1" type="text"/><br/>
-    Map Link: <input id="restaurant_map_link" type="text"/><br/>
+    <h3>General Information</h3>
+    <div id="general_info_div">
+<div id="our_story_div">
     Our Story:<br/>
     <textarea id="restaurant_our_story"></textarea><br/>
+</div>
+<br/>
+    Announcement #1: <input id="restaurant_announcement_0" class="texbox_long" type="text"/><br/>
+    Announcement #2: <input id="restaurant_announcement_1" class="texbox_long" type="text"/><br/>
+    Map Link: <input id="restaurant_map_link" class="texbox_long" type="text"/><br/>
+</div>
+<h3>Specials</h3><br/> 
+    <div class="special_div">Header: <input id="special_header_0" class="texbox_normal" type="text"/> Text: <input id="special_text_0" class="texbox_very_long" type="text"/></div>
+    <div class="special_div">Header: <input id="special_header_1" class="texbox_normal" type="text"/> Text: <input id="special_text_1" class="texbox_very_long" type="text"/></div>
+    <div class="special_div">Header: <input id="special_header_2" class="texbox_normal" type="text"/> Text: <input id="special_text_2" class="texbox_very_long" type="text"/></div>
+    <br/>
+    <h3>Menu Item</h3><br/>  
+    <div class="special_div">
+	ID: <input id="mi_id_0" class="texbox_normal" type="text"/> 
+	<div style="float:right">Category: <input id="mi_p0_0" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_0" class="texbox_normal" type="text"/></div><br/>
+    Name: <input id="mi_name_0" class="texbox_normal" type="text"/> Description: <input id="mi_description_0" class="mi_description texbox_very_long" type="text"/><br/>
+    Price: <input id="mi_price_0" class="texbox_normal" type="text"/> Votes: <input id="mi_votes_0" class="texbox_normal" type="text"/><br/>
+</div>
 
-    <h3>Menu Item</h3>   
-    Parent 0: <input id="mi_p0_0" type="text"/><br/>
-    Parent 1: <input id="mi_p1_0" type="text"/><br/>
-    ID: <input id="mi_id_0" type="text"/><br/>
-    Name: <input id="mi_name_0" type="text"/><br/>
-    Description: <input id="mi_description_0" type="text"/><br/>
-    Votes: <input id="mi_votes_0" type="text"/><br/>
-    Price: <input id="mi_price_0" type="text"/><br/>
-
-
-    <h3>Specials</h3>   
-    Special #1 Header: <input id="special_header_0" type="text"/><br/>
-    Special #1 Text: <input id="special_text_0" type="text"/><br/>
-    Special #2 Header: <input id="special_header_1" type="text"/><br/>
-    Special #2 Text: <input id="special_text_1" type="text"/><br/>
-    Special #3 Header: <input id="special_header_2" type="text"/><br/>
-    Special #3 Text: <input id="special_text_2" type="text"/><br/>
-    <input id="restaurant_save" type="submit" value="Save">
+        <input id="restaurant_save" type="submit" value="Save">
 </div>
 <script>
     var current_restaurant = null;

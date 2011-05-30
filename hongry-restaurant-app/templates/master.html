@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="shortcut icon" href="http://localhost:8090/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="http://localhost:8090/css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="http://localhost:8090/css/blueprint/print.css" type="text/css" media="print">	
+    <script src="/js/jquery.js"></script>
+    <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+    <title>Hongry.com</title>
+    <style>
+	.hidden {
+	    display: none;
+	}
+
+        body {
+            font-family: Helvetica, arial, sans-serif;
+            font-size: 20px;
+            color:#626262;
+            text-align: center; /* for IE */
+        }
+    
+        .center {
+            text-align:center;
+        }
+        
+        .footer-header {
+            color: #373737;
+            font-size: 19px;
+        }
+        
+        .footer {
+            font-size: 14px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+    {% block head_extra %}{% endblock %}
+</head>
+<body style="background-color:#f5f5f5">
+    <div style="height:10px; width:100%; background-color:white">&nbsp;</div>
+    <div class="container" style="margin: 0 auto;   /* align for good browsers */ text-align: left; /* counter the body center */">
+            <div class="span-24 last" style="height:15px">&nbsp;</div>
+            <div class="span-6 center">
+                    <img src="http://localhost:8090/images/logo.png"/>
+            </div>
+            <div class="span-6">
+                &nbsp;
+            </div>
+            <div class="span-3 center">
+                <img src="http://localhost:8090/images/nav-welcome-dark.png" style="margin-top:60px"/>
+            </div>
+            <div class="span-3 center">
+                <img src="http://localhost:8090/images/nav-about.png" style="margin-top:60px"/>
+            </div>
+            <div class="span-3 center">
+                <img src="http://localhost:8090/images/nav-services.png" style="margin-top:60px"/>
+            </div>
+            <div class="span-3 last center">
+                <img src="http://localhost:8090/images/nav-contactus.png" style="margin-top:60px"/>
+            </div>
+            <div class="span-24 last" style="height:18px">&nbsp;</div>
+            <div class="span-24 last">
+                    {% block content %}{% endblock %}
+            </div>
+            <div class="span-24 last" style="height:18px">&nbsp;</div>
+            <hr style="height:2px; color:#373737; margin:10px"/>
+            
+            <div class="span-6">
+                <div class="footer">
+                <span class="footer-header">Hongry</span><br/>
+                5906 Jacob Glen<br/>
+                Austin, TX 78727<br/>
+                (512) 850-6950
+                </div>
+            </div>
+            <div class="span-6">
+                <div class="footer">
+                <span class="footer-header">Find Us</span><br/>
+                Twitter: <a href="https://twitter.com/HongryRichard">@HongryRichard</a>
+                </div>
+            </div>
+            <div class="span-6">
+                <div class="footer">
+                <span class="footer-header">It's Always There</span><br/>
+                Copyright &copy 2010 Hongry LLC. All rights reserved.
+                </div>
+            </div>
+            <div class="span-6 last">
+                <div class="footer">
+                <span class="footer-header">One more thing</span><br/>
+                "The belly rules the mind."  Spanish Proverb
+                </div>
+            </div>
+    </div>
+</body>
