@@ -1,0 +1,43 @@
+{% extends "application_base.html" %}
+{% block head_extra %}
+<script type="text/javascript" src="/javascript/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery.uploadify.v2.1.0.min.js"></script>
+<script type="text/javascript" src="/javascript/swfobject.js"></script>
+{% endblock %}
+{% block content %}
+    <h2>Application ID: {{app_id}}</h2>
+    
+    <h3>Menu Items</h3>
+        <p>You can upload your menu items by using an excel spread sheet and uploading to our system as a ".csv" file.  Grab our <a href=""#">template</a> here to get started.</p>
+        <br/>
+        <center>
+            <input id="menu_items" type="file" />
+            <script type="text/javascript">// <![CDATA[
+            $(document).ready(function() {
+            $('#menu_items').uploadify({
+            'scriptData' : { 'app_id': '{{app_id}}'},
+            'uploader'  : '/javascript/uploadify.swf',
+            'script'    : '/upload_application_menu_items',
+            'cancelImg' : '/images/cancel.png',
+            'auto'      : true,
+            'buttonText' : 'Upload',
+            'folder'    : '/',
+            'onComplete' : function( event, queueID, fileObj, response, data) {
+                parent.location.href='/app_menu_items?app_id={{app_id}}'
+            },
+            'onError' : function( event, queueID, fileObj, response, data) {
+                alert(response.toSource())
+            }
+            });
+            });
+            // ]]></script>
+        </center>
+        <br/>
+        <h3>Current Menu Items</h3>
+    {%- for mi in menu_items %}
+        <div>
+        <label>Name: </label>{{mi.name}}   <label>Price: </label>${{mi.price}} <label>Category: </label>{{mi.category}}<br/>
+        <i>{{mi.description}}</i><br/>
+        </div>
+   {%- endfor %}
+{% endblock %}

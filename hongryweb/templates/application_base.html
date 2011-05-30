@@ -1,0 +1,13 @@
+{% extends "master.html" %}
+{% block action_area %}
+Configuration
+<ul>
+    <li><a href="/app_settings?app_id={{app_id}}">Application Settings</a></li>
+    <li><a href="/app_images?app_id={{app_id}}">Images</a></li>
+    <li><a href="/app_menu_items?app_id={{app_id}}">Menu Items</a></li>
+    <li><a href="/app_communication?app_id={{app_id}}">Communication</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+ 
+{% endblock %}

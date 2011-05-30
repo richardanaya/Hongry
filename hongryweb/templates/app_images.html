@@ -1,0 +1,101 @@
+{% extends "application_base.html" %}
+{% block head_extra %}
+<script type="text/javascript" src="/javascript/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery.uploadify.v2.1.0.min.js"></script>
+<script type="text/javascript" src="/javascript/swfobject.js"></script>
+{% endblock %}
+{% block content %}
+    <h2>Application ID: {{app_id}}</h2>
+
+    <form action=="do_update_application_images">
+        <h3>Application Images</h3>
+        <label for="logo">Logo Image:</label><br/>
+        <div id="logo_holder" name="logo_holder">
+        {% if logo != None %}
+        <img src="/get_image?key={{logo}}"/>
+        {% endif %}
+        </div>
+        <input type="hidden" id="logo" name="logo" value="{{logo}}"/>
+        <input id="logo_file" type="file" />
+        <script type="text/javascript">// <![CDATA[
+            $(document).ready(function() {
+            $('#logo_file').uploadify({
+            'uploader'  : '/javascript/uploadify.swf',
+            'scriptData' : { 'app_id': '{{app_id}}','image_id': "logo"},
+            'script'    : '/update_application_image',
+            'buttonText' : 'Update',
+            'cancelImg' : '/images/cancel.png',
+            'auto'      : true,
+            'folder'    : '/',
+            'onComplete' : function( event, queueID, fileObj, response, data) {
+                $("#logo_holder").html("<img src='/get_image?key="+response+"'/>");
+                $("#logo").val(response)
+            },
+            'onError' : function( event, queueID, fileObj, response, data) {
+                alert(response.toSource())
+            }
+            });
+            });
+            // ]]></script>
+        <br/>
+        <label for="icon">Icon Image:</label><br/>
+        <div id="icon_holder" name="icon_holder">
+        {% if icon != None %}
+        <img src="/get_image?key={{icon}}"/>
+        {% endif %}
+        </div>
+        <input type="hidden" id="icon" name="icon" value="{{icon}}"/>
+        <input id="icon_file" type="file" />
+        <script type="text/javascript">// <![CDATA[
+            $(document).ready(function() {
+            $('#icon_file').uploadify({
+            'scriptData' : { 'app_id': '{{app_id}}','image_id': "icon"},
+            'uploader'  : '/javascript/uploadify.swf',
+            'script'    : '/update_application_image',
+            'cancelImg' : '/images/cancel.png',
+            'auto'      : true,
+            'buttonText' : 'Update',
+            'folder'    : '/',
+            'onComplete' : function( event, queueID, fileObj, response, data) {
+                $("#icon_holder").html("<img src='/get_image?key="+response+"'/>");
+                $("#icon").val(response)
+            },
+            'onError' : function( event, queueID, fileObj, response, data) {
+                alert(response.toSource())
+            }
+            });
+            });
+            // ]]></script>
+        <br/>
+        <label for="background">Background Image:</label><br/>
+        <div id="background_holder" name="background_holder">
+        {% if background != None %}
+        <img src="/get_image?key={{background}}"/>
+        {% endif %}
+        </div>
+        <input type="hidden" id="background" name="background" value="{{background}}"/>
+        <input id="background_file" type="file" />
+        <script type="text/javascript">// <![CDATA[
+            $(document).ready(function() {
+            $('#background_file').uploadify({
+            'scriptData' : { 'app_id': '{{app_id}}', 'image_id': "background"},
+            'uploader'  : '/javascript/uploadify.swf',
+            'script'    : '/update_application_image',
+            'cancelImg' : '/images/cancel.png',
+            'auto'      : true,
+            'folder'    : '/',
+            'buttonText' : 'Update',
+            'onComplete' : function( event, queueID, fileObj, response, data) {
+                $("#background_holder").html("<img src='/get_image?key="+response+"'/>");
+                $("#background").val(response)
+            },
+            'onError' : function( event, queueID, fileObj, response, data) {
+                alert(response.toSource())
+            }
+            });
+            });
+            // ]]></script>
+        <br/>
+        <br/>
+    </form>
+{% endblock %}

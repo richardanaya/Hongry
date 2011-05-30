@@ -1,0 +1,36 @@
+{% extends "application_base.html" %}
+{% block head_extra %}
+<script type="text/javascript" src="/javascript/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery.uploadify.v2.1.0.min.js"></script>
+<script type="text/javascript" src="/javascript/swfobject.js"></script>
+{% endblock %}
+{% block content %}
+    <form action="do_update_application_settings">
+        <h2>Application ID: {{app_id}}</h2>
+        <p>Welcome to your mobile application configuration page.  You can modify all sorts of data of your application from this page which will be pushed out to your customers for the next time they update information on their phone.</p>
+        <input type="hidden" id="app_id" name="app_id" value="{{app_id}}"/>
+        <label for="venue_name">Name: </label><input type="text" id="venue_name" name="venue_name" value="{{venue_name}}"/><br/>
+        <label for="our_story">Our Story:</label><br/>
+        <textarea id="our_story" name="our_story" maxlength="2000">{{our_story}}</textarea><br/>
+        <label for="front_page_text">Front Page Text: </label><input type="text" id="front_page_text" name="front_page_text" size="40" value="{{front_page_text}}"/><br/>
+        <br/>
+        
+        Please verify over your selections.  Submission of this data will reach your customers as they update their phones data and/or application.: <br/
+        <br/>
+        <br/>
+        <script LANGUAGE="JavaScript"> 
+        function confirmSubmit() 
+        {
+        var agree=confirm("Are you sure you wish upload?");
+        if (agree)
+                return true ;
+        else
+                return false ;
+        }
+        </script>
+        <center><button style="font-size:16pt" type="submit" >Save</button></center>
+        <br/>
+        <br/>
+    </form>
+    
+{% endblock %}

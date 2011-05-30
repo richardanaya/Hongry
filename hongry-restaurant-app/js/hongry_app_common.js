@@ -299,7 +299,15 @@ HeirarchalListScene.prototype.getHeirarchalItemById = function(id) {
 }
 
 HeirarchalListScene.prototype.hasMoreChildItems = function(i) {
-    return this.current_parent_0 == -1;
+    var id = this.heirarchalData[i].id;
+    for( var i=0, length=this.heirarchalData.length; i<length; i++) {
+        var it = this.heirarchalData[i];
+        if( it.parent_0 == id || it.parent_1 == id) {
+          return true;
+        }
+    }
+
+    return false;
 }
 
 HeirarchalListScene.prototype.leafItemTouched = function(item) {

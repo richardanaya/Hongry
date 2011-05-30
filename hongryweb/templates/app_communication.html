@@ -1,0 +1,24 @@
+{% extends "application_base.html" %}
+{% block content %}
+    <h2>Application ID: {{app_id}}</h2>
+    
+    <h3>Sending a message</h3>
+    <p>You can send a message at any time to your customers.  They will see this information as soon as their phone updates.</p>
+    <form action="do_add_application_message">
+        <input type="hidden" id="app_id" name="app_id" value="{{app_id}}"/>
+        <label for="title">Title: </label><input id="title" name="title" type="text" size="40"/><br/>
+        <label for="message">Message to Send: </label><input id="message" name="message" type="text" size="40"/><br/>
+        <button type="submit">Send</button>
+    </form>
+    <br/>
+    <h3>Previous Messages</h3>
+    {%- for n in news %}
+        <div>
+        {{ n.created_date }}<br/>
+        <b>{{ n.title }}</b><br/>
+        {{n.content}}<br/>
+        <button type="button">Delete</button>
+    </div>
+   {%- endfor %}
+    
+{% endblock %}
