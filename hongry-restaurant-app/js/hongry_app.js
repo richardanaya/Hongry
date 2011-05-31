@@ -65,9 +65,12 @@ $(document).ready(function() {
     });
 
 getImage = function(index) {
-    if( index == 0 ) { return imgBackground; }
-    else if( index == 1 ) { return imgLogo; }
-    else if( index == 2 ) { return imgTacos; }
+    var image = null;
+    if( index == 0 ) { image = imgBackground; }
+    else if( index == 1 ) { image = imgLogo; }
+    else if( index == 2 ) { image =  imgTacos; }
+    image.loaded = true
+    return image;
 }
 
 init = function() {
@@ -155,14 +158,30 @@ function drawButtons(){
     drawButton(imgMore,256,BAR_HEIGHT,pressed[4]);
 }
 
+drawImage = function(imageId,x,y,width,height,a,b,c,d) {
+    var img = getImage(imageId);
+    if( img.loaded ) {
+	if( width == undefined ) width = img.width;
+	if( height == undefined ) height = img.height;
+	if( a == undefined && b == undefined && c == undefined && d == undefined ) {
+	    ctx.drawImage(img,x,y,width,height);
+	}
+	else {
+	    ctx.drawImage(img,x,y,width,height,a,b,c,d);
+	}
+    }
+}
+
+var LOGO_HEIGHT = 196;
+var LOGO_WIDTH = 250;
+
 FrontPageScene = function () {
     
 }
 
 FrontPageScene.prototype.drawHandler = function() {
-    ctx.drawImage(getImage(restaurant_data.image_background),0,0,WIDTH,HEIGHT);
-    var logoImage = getImage(restaurant_data.image_logo);
-    ctx.drawImage(logoImage,(WIDTH-logoImage.width)/2,65);
+    drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
+    drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,65);
     drawButtons();
     ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
     drawString(restaurant_data.announcement_0,(320-200)/2,287,200,40);
@@ -178,17 +197,15 @@ FrontPageScene.prototype.mouseDownHandler = function(x,y) {
 OurStoryScene = function() {
     this.text = restaurant_data.our_story;
     this.currentPage = 0;
-    var logoImage = getImage(restaurant_data.image_logo);
-    this.pages = countPages(this.text,WIDTH-54,logoImage.height+10);
+    this.pages = countPages(this.text,WIDTH-54,LOGO_HEIGHT+10);
 }
 
 OurStoryScene.prototype.drawHandler = function() {
-      ctx.drawImage(getImage(restaurant_data.image_background),0,0,WIDTH,HEIGHT);
-      var logoImage = getImage(restaurant_data.image_logo);
-      ctx.drawImage(logoImage,(WIDTH-logoImage.width)/2,5);
+      drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
+      drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,5);
       drawButtons();
-      ctx.drawImage(imgListItem,20,logoImage.height+10,WIDTH-40,logoImage.height+10+14);
-      drawStringPage(this.text,27,logoImage.height+10+7,WIDTH-54,logoImage.height+10,this.currentPage);
+      ctx.drawImage(imgListItem,20,LOGO_HEIGHT+10,WIDTH-40,LOGO_HEIGHT+10+14);
+      drawStringPage(this.text,27,LOGO_HEIGHT+10+7,WIDTH-54,LOGO_HEIGHT+10,this.currentPage);
 }
 
 OurStoryScene.prototype.mouseDownHandler = function(x, y) {
@@ -216,8 +233,7 @@ MenuItemScene.prototype.drawHandler = function() {
       FONT = oldFont;
       ctx.drawImage(imgButton,7,7,50,30);
       drawString("Back", 17,15,50,30);
-      var itemImg = getImage(2);
-      ctx.drawImage(itemImg,0,0,itemImg.width,itemImg.height,10,NAV_BAR_HEIGHT+10,300,200);
+      drawImage(2,10,NAV_BAR_HEIGHT+10,300,200);
       FONT = FONT_GREEN_12;
       
       drawString(this.menuItemData.price.toUpperCase(),260,NAV_BAR_HEIGHT+200+25,200,50);
@@ -362,12 +378,10 @@ SpecialItemScene = function(item) {
 SpecialItemScene.prototype.drawHandler = function() {
     pushFont();
     FONT = FONT_WHITE_BIG;
-    var specialImage = getImage(this.item.img);
-    var backgroundImage = getImage(restaurant_data.image_background);
-    ctx.drawImage(backgroundImage,0,0,WIDTH,HEIGHT);
+    drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
     var w = WIDTH-40;
     var h = 150;
-    ctx.drawImage(specialImage,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
+    drawImage(this.item.img,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
     drawButtons();
     ctx.drawImage(imgListItem,20,h+30,WIDTH-40,h+70+14);
     drawStringPage(this.item.text,35,h+30+7,WIDTH-60,h+70,this.currentPage);
