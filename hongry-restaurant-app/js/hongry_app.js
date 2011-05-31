@@ -277,7 +277,7 @@ MenuListScene.prototype = new HeirarchalListScene();
 MenuListScene.prototype.constructor = MenuListScene;
 
 MenuListScene.prototype.leafItemTouched = function(item) {
-    currentScene = new MenuItemScene(this.heirarchalData[item.id]);
+    currentScene = new MenuItemScene(item);
 }
 
 MenuListScene.prototype.drawItemHandler = function(item,i) {

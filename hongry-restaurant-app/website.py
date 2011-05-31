@@ -5,6 +5,9 @@ from lib.util import *
 class Root(object):
     @cherrypy.expose
     def index(self):
+	r= Restaurant()
+	r.specials_name = ['a','b','c']
+	r.put()
         return render("index.html",{"name":"Richard"})
     
     @cherrypy.expose
@@ -20,16 +23,18 @@ class Root(object):
 	specials = ""
 
 	for i in range(0,len(r.specials_name)):
-	    if specials != "":
-		specials = specials + ', '
-	    specials = specials + '{ name: "%s", text: "%s", img:2}' % (r.specials_name[i],r.specials_text[i])
+	    if( r.specials_name[i].strip() != '' ):
+		if specials != "":
+		    specials = specials + ', '
+		specials = specials + '{ name: "%s", text: "%s", img:2}' % (r.specials_name[i],r.specials_text[i])
 
 
 	menuitems = ""
 	for i in range(0,len(r.menuitem_id)):
-	    if menuitems != "":
-		menuitems = menuitems + ', '
-	    menuitems =  menuitems + '{parent_0:"%s" ,parent_1:"%s" ,id:"%s" ,name:"%s", description: "%s", votes: "%s", price: "%s", voted: true}' % (r.menuitem_parent_0[i],r.menuitem_parent_1[i],r.menuitem_id[i],r.menuitem_name[i],r.menuitem_description[i],r.menuitem_votes[i],r.menuitem_price[i])
+	    if( r.menuitem_name[i].strip() != '' ):
+		if menuitems != "":
+		    menuitems = menuitems + ', '
+		menuitems =  menuitems + '{parent_0:"%s" ,parent_1:"%s" ,id:"%s" ,name:"%s", description: "%s", votes: "%s", price: "%s", voted: true}' % (r.menuitem_parent_0[i],r.menuitem_parent_1[i],r.menuitem_id[i],r.menuitem_name[i],r.menuitem_description[i],r.menuitem_votes[i],r.menuitem_price[i])
 
         return """
 {

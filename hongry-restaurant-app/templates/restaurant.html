@@ -1,5 +1,14 @@
 {% extends "master.html" %}
 {% block content %}
+<script id="clientTemplate" type="text/html">
+    <div id="mi_${mid}" class="special_div">
+	ID: <input id="mi_id_${mid}" class="texbox_normal" type="text"/> 
+	<div style="float:right">Category: <input id="mi_p0_${mid}" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_${mid}" class="texbox_normal" type="text"/></div><br/>
+	Name: <input id="mi_name_${mid}" class="texbox_normal" type="text"/> Description: <input id="mi_description_${mid}" class="mi_description texbox_very_long" type="text"/><br/>
+	Price: <input id="mi_price_${mid}" class="texbox_normal" type="text"/> Votes: <input id="mi_votes_${mid}" class="texbox_normal" type="text"/>
+	<a onclick="delete_menu_item('mi_${mid}');" style="float:right; font-size:10px; color: #c00; margin-top: 20px;">Remove</a>
+</div>
+</script>
 <style>
     #our_story_div {
 	float: right;
@@ -59,17 +68,17 @@
     <div class="special_div">Header: <input id="special_header_2" class="texbox_normal" type="text"/> Text: <input id="special_text_2" class="texbox_very_long" type="text"/></div>
     <br/>
     <h3>Menu Item</h3><br/>  
-    <div class="special_div">
-	ID: <input id="mi_id_0" class="texbox_normal" type="text"/> 
-	<div style="float:right">Category: <input id="mi_p0_0" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_0" class="texbox_normal" type="text"/></div><br/>
-    Name: <input id="mi_name_0" class="texbox_normal" type="text"/> Description: <input id="mi_description_0" class="mi_description texbox_very_long" type="text"/><br/>
-    Price: <input id="mi_price_0" class="texbox_normal" type="text"/> Votes: <input id="mi_votes_0" class="texbox_normal" type="text"/><br/>
-</div>
+    <div id="menu_items">
+    </div>
+    <div class="special_div" style="text-align:center">
+	<a id="add_another_item_button">Add another item</a>
+    </div>
 
         <input id="restaurant_save" type="submit" value="Save">
 </div>
 <script>
     var current_restaurant = null;
+    var highest_menu_items = 0;
 
     create_restaurant = function(id) {
 	var data = { "restaurant":{"name": id}};
@@ -93,16 +102,21 @@
 	 $('#restaurant_map_link').val(current_restaurant.map_link);
 	 $('#restaurant_our_story').val(current_restaurant.our_story);
 	 $('#restaurant').toggleClass('hidden');
-	 var length = current_restaurant.specials_name.item.length;
+	 var length = size(current_restaurant.specials_name.item);
 	 for( var i = 0 ; i < length; i++ )
 	 {
 	    vs('#special_header_'+i,current_restaurant.specials_name,i);
 	    vs('#special_text_'+i,current_restaurant.specials_text,i);
 	 }
 	
-	 var length = current_restaurant.menuitem_id.item.length;
+	 var length = size(current_restaurant.menuitem_id.item);
+	 highest_menu_items = length;
 	 for( var i = 0 ; i < length; i++ )
 	 {
+	     var clientData = [
+		{ mid: i },
+	     ];
+	     $("#clientTemplate").tmpl(clientData).appendTo( "#menu_items" );
 	    vs('#mi_p0_'+i,current_restaurant.menuitem_parent_0,i);
 	    vs('#mi_p1_'+i,current_restaurant.menuitem_parent_1,i);
 	    vs('#mi_id_'+i,current_restaurant.menuitem_id,i);
@@ -114,12 +128,25 @@
 
     }
 
+    size = function(a) {
+	if (a.constructor.toString().indexOf("Array") == -1) {
+	    return 1;
+	}
+	return a.length;
+    }
+
     vs = function(id,vals,i) {
-	if (vals.constructor.toString().indexOf("Array") == -1) {
-	    $(id).val(vals.item);
+	if (vals.item.constructor.toString().indexOf("Array") == -1) {
+	    var s = vals.item.toString();
+	    if( s != "[object Object]" ) {
+		$(id).val(s);
+	    }
 	}
 	else {
-	    $(id).val(vals.item[i]);
+	    var s = vals.item[i].toString();
+	    if( s != "[object Object]" ) {
+		$(id).val(s);
+	    }
 	}
     }
 
@@ -134,13 +161,25 @@
 	current_restaurant.our_story = $('#restaurant_our_story').val();
 	current_restaurant.specials_name = {'item':[v('#special_header_0'),v('#special_header_1'),v('#special_header_2')]};
 	current_restaurant.specials_text = {'item':[v('#special_text_0'),v('#special_text_1'),v('#special_text_2')]};
-	current_restaurant.menuitem_parent_0 = {'item':[v('#mi_p0_0')]};
-	current_restaurant.menuitem_parent_1 = {'item':[v('#mi_p1_0')]};
-	current_restaurant.menuitem_id = {'item':[v('#mi_id_0')]};
-	current_restaurant.menuitem_name = {'item':[v('#mi_name_0')]};
-	current_restaurant.menuitem_description = {'item':[v('#mi_description_0')]};
-	current_restaurant.menuitem_votes = {'item':[v('#mi_votes_0')]};
-	current_restaurant.menuitem_price = {'item':[v('#mi_price_0')]};
+
+	current_restaurant.menuitem_parent_0 = {'item':[]};
+	current_restaurant.menuitem_parent_1 = {'item':[]};
+	current_restaurant.menuitem_id = {'item':[]};
+	current_restaurant.menuitem_name = {'item':[]};
+	current_restaurant.menuitem_description = {'item':[]};
+	current_restaurant.menuitem_votes = {'item':[]};
+	current_restaurant.menuitem_price = {'item':[]};
+	for( var i = 0; i < highest_menu_items; i++ ) {
+	    if ($('#mi_'+i).length>0) {
+		current_restaurant.menuitem_parent_0.item.push(v('#mi_p0_'+i));
+		current_restaurant.menuitem_parent_1.item.push(v('#mi_p1_'+i));
+		current_restaurant.menuitem_id.item.push(v('#mi_id_'+i));
+		current_restaurant.menuitem_name.item.push(v('#mi_name_'+i));
+		current_restaurant.menuitem_description.item.push(v('#mi_description_'+i));
+		current_restaurant.menuitem_votes.item.push(v('#mi_votes_'+i));
+		current_restaurant.menuitem_price.item.push(v('#mi_price_'+i));
+	    }
+	}
 
 	var data = {'list': { 'restaurant': current_restaurant }};
 	$.ajax({
@@ -172,6 +211,20 @@
 	}
 	);
     }
+
+    delete_menu_item = function(id) {
+	$('#'+id).remove();
+    }
+
+
+    $('#add_another_item_button').click( function() {
+	var clientData = [
+	{ mid: highest_menu_items },
+	];
+	$("#clientTemplate").tmpl(clientData).appendTo( "#menu_items" );
+	highest_menu_items++;
+    });
     $(document).ready(start);
+
 </script>
 {% endblock %}
