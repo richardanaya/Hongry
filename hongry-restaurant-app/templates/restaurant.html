@@ -5,7 +5,9 @@
 	ID: <input id="mi_id_${mid}" class="texbox_normal" type="text"/> 
 	<div style="float:right">Category: <input id="mi_p0_${mid}" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_${mid}" class="texbox_normal" type="text"/></div><br/>
 	Name: <input id="mi_name_${mid}" class="texbox_normal" type="text"/> Description: <input id="mi_description_${mid}" class="mi_description texbox_very_long" type="text"/><br/>
-	Price: <input id="mi_price_${mid}" class="texbox_normal" type="text"/> Votes: <input id="mi_votes_${mid}" class="texbox_normal" type="text"/>
+	Price: <input id="mi_price_${mid}" class="texbox_normal" type="text"/> 
+	Votes: <input id="mi_votes_${mid}" class="texbox_normal" type="text"/>
+	Image: <input id="mi_image_${mid}" class="texbox_normal" type="text"/>
 	<a onclick="delete_menu_item('mi_${mid}');" style="float:right; font-size:10px; color: #c00; margin-top: 20px;">Remove</a>
 </div>
 </script>
@@ -22,7 +24,7 @@
 	font-size: 24px;
     }
     #general_info_div {
-	height: 160px;
+	height: 220px;
     }
     .special_div {
 	border: solid 1px #CCC;
@@ -61,6 +63,8 @@
     Announcement #1: <input id="restaurant_announcement_0" class="texbox_long" type="text"/><br/>
     Announcement #2: <input id="restaurant_announcement_1" class="texbox_long" type="text"/><br/>
     Map Link: <input id="restaurant_map_link" class="texbox_long" type="text"/><br/>
+    Background Image: <input id="restaurant_background" class="texbox_normal" type="text"/><br/>
+    Logo Image: <input id="restaurant_logo" class="texbox_normal" type="text"/><br/>
 </div>
 <h3>Specials</h3><br/> 
     <div class="special_div">Header: <input id="special_header_0" class="texbox_normal" type="text"/> Text: <input id="special_text_0" class="texbox_very_long" type="text"/></div>
@@ -72,6 +76,12 @@
     </div>
     <div class="special_div" style="text-align:center">
 	<a id="add_another_item_button">Add another item</a>
+    </div>
+    <div id="updated_div" class="special_div" style="text-align:center; background-color: #0d0; display: none">
+	Updated Succesfully
+    </div>
+    <div id="error_div" class="special_div" style="text-align:center; background-color: #d00; display: none">
+	Oops, something went wrong.
     </div>
 
         <input id="restaurant_save" type="submit" value="Save">
@@ -99,6 +109,8 @@
     load_restaurant = function() {
 	 $('#restaurant_announcement_0').val(current_restaurant.announcement_0);
 	 $('#restaurant_announcement_1').val(current_restaurant.announcement_1);
+	 $('#restaurant_background').val(current_restaurant.image_background);
+	 $('#restaurant_logo').val(current_restaurant.image_logo);
 	 $('#restaurant_map_link').val(current_restaurant.map_link);
 	 $('#restaurant_our_story').val(current_restaurant.our_story);
 	 $('#restaurant').toggleClass('hidden');
@@ -124,6 +136,7 @@
 	    vs('#mi_description_'+i,current_restaurant.menuitem_description,i);
 	    vs('#mi_votes_'+i,current_restaurant.menuitem_votes,i);
 	    vs('#mi_price_'+i,current_restaurant.menuitem_price,i);
+	    vs('#mi_image_'+i,current_restaurant.menuitem_image,i);
 	 }
 
     }
@@ -157,6 +170,8 @@
     save_restaurant = function() {
 	current_restaurant.announcement_0 = $('#restaurant_announcement_0').val();
 	current_restaurant.announcement_1 = $('#restaurant_announcement_1').val();
+	current_restaurant.image_background = $('#restaurant_background').val();
+	current_restaurant.image_logo = $('#restaurant_logo').val();
 	current_restaurant.map_link = $('#restaurant_map_link').val();
 	current_restaurant.our_story = $('#restaurant_our_story').val();
 	current_restaurant.specials_name = {'item':[v('#special_header_0'),v('#special_header_1'),v('#special_header_2')]};
@@ -169,6 +184,7 @@
 	current_restaurant.menuitem_description = {'item':[]};
 	current_restaurant.menuitem_votes = {'item':[]};
 	current_restaurant.menuitem_price = {'item':[]};
+	current_restaurant.menuitem_image = {'item':[]};
 	for( var i = 0; i < highest_menu_items; i++ ) {
 	    if ($('#mi_'+i).length>0) {
 		current_restaurant.menuitem_parent_0.item.push(v('#mi_p0_'+i));
@@ -178,6 +194,7 @@
 		current_restaurant.menuitem_description.item.push(v('#mi_description_'+i));
 		current_restaurant.menuitem_votes.item.push(v('#mi_votes_'+i));
 		current_restaurant.menuitem_price.item.push(v('#mi_price_'+i));
+		current_restaurant.menuitem_image.item.push(v('#mi_image_'+i));
 	    }
 	}
 
@@ -188,10 +205,14 @@
 	    url:'http://localhost:8083/rest/restaurant',
 	    data: JSON.stringify(data),
 	    success: function(result) {
-		alert('updated');
+		$('#updated_div').css("display","none");
+		$('#error_div').css("display","none");
+		$('#updated_div').fadeIn("slow");
 	    },
 	    error: function(result) {
-		alert('er');
+		$('#updated_div').css("display","none");
+		$('#error_div').css("display","none");
+		$('#error_div').fadeIn("slow");
 	    }
 	});
 

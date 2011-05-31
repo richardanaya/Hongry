@@ -64,11 +64,27 @@ $(document).ready(function() {
 
     });
 
+var cached_images = [];
+
 getImage = function(index) {
     var image = null;
     if( index == 0 ) { image = imgBackground; }
     else if( index == 1 ) { image = imgLogo; }
     else if( index == 2 ) { image =  imgTacos; }
+    else {
+	if( index in cached_images ) {
+	    return cached_images[index];
+	}
+	image = new Image();
+	image.loaded = false
+	image.onload = function() { 
+	    this.loaded = true;
+	    draw();
+	}
+	image.src = index;
+	cached_images[index] = image;
+	return image;
+    }
     image.loaded = true
     return image;
 }
@@ -233,7 +249,7 @@ MenuItemScene.prototype.drawHandler = function() {
       FONT = oldFont;
       ctx.drawImage(imgButton,7,7,50,30);
       drawString("Back", 17,15,50,30);
-      drawImage(2,10,NAV_BAR_HEIGHT+10,300,200);
+      drawImage(this.menuItemData.img,10,NAV_BAR_HEIGHT+10,300,200);
       FONT = FONT_GREEN_12;
       
       drawString(this.menuItemData.price.toUpperCase(),260,NAV_BAR_HEIGHT+200+25,200,50);

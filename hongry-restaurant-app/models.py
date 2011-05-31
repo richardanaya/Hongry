@@ -8,8 +8,8 @@ class RestaurantImage(db.Model):
 
 class Restaurant(db.Model):
     name = db.StringProperty()
-    image_background = db.ReferenceProperty(RestaurantImage,collection_name="restaurant_image_background_reference")
-    image_logo = db.ReferenceProperty(RestaurantImage,collection_name="restaurant_image_logo_reference")
+    image_background = db.StringProperty()
+    image_logo = db.StringProperty()
     announcement_0 = db.StringProperty()
     announcement_1 = db.StringProperty()
     our_story = db.StringProperty()
@@ -23,6 +23,7 @@ class Restaurant(db.Model):
     menuitem_description = db.StringListProperty()
     menuitem_votes = db.StringListProperty()
     menuitem_price = db.StringListProperty()
+    menuitem_image = db.StringListProperty()
 
 rest.Dispatcher.add_models({
   "restaurant_image": RestaurantImage,

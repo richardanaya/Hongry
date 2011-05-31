@@ -5,9 +5,6 @@ from lib.util import *
 class Root(object):
     @cherrypy.expose
     def index(self):
-	r= Restaurant()
-	r.specials_name = ['a','b','c']
-	r.put()
         return render("index.html",{"name":"Richard"})
     
     @cherrypy.expose
@@ -22,6 +19,7 @@ class Root(object):
 
 	specials = ""
 
+
 	for i in range(0,len(r.specials_name)):
 	    if( r.specials_name[i].strip() != '' ):
 		if specials != "":
@@ -34,12 +32,12 @@ class Root(object):
 	    if( r.menuitem_name[i].strip() != '' ):
 		if menuitems != "":
 		    menuitems = menuitems + ', '
-		menuitems =  menuitems + '{parent_0:"%s" ,parent_1:"%s" ,id:"%s" ,name:"%s", description: "%s", votes: "%s", price: "%s", voted: true}' % (r.menuitem_parent_0[i],r.menuitem_parent_1[i],r.menuitem_id[i],r.menuitem_name[i],r.menuitem_description[i],r.menuitem_votes[i],r.menuitem_price[i])
+		menuitems =  menuitems + '{parent_0:"%s" ,parent_1:"%s" ,id:"%s" ,name:"%s", description: "%s", votes: "%s", price: "%s", voted: true, img: "%s"}' % (r.menuitem_parent_0[i],r.menuitem_parent_1[i],r.menuitem_id[i],r.menuitem_name[i],r.menuitem_description[i],r.menuitem_votes[i],r.menuitem_price[i],r.menuitem_image[i])
 
         return """
 {
-	    image_background: 0,
-	    image_logo:1,
+	    image_background: "%s",
+	    image_logo:"%s",
 	    announcement_0: "%s",
 	    announcement_1: "%s",
 	    our_story: "%s",
@@ -51,7 +49,7 @@ class Root(object):
 		%s 
 	    ]
 	}
-""" % ( r.announcement_0, r.announcement_1, r.our_story, r.map_link, menuitems, specials )
+""" % ( r.image_background, r.image_logo, r.announcement_0, r.announcement_1, r.our_story, r.map_link, menuitems, specials )
 
 
     @cherrypy.expose(alias="favicon.ico")
