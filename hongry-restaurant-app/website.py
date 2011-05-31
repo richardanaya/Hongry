@@ -1,6 +1,7 @@
 import cherrypy
 from models import *
 from lib.util import *
+from uuid import uuid4
 
 class Root(object):
     @cherrypy.expose
@@ -51,6 +52,20 @@ class Root(object):
 	}
 """ % ( r.image_background, r.image_logo, r.announcement_0, r.announcement_1, r.our_story, r.map_link, menuitems, specials )
 
+    @cherrypy.expose
+    def upload_image(self, **args):
+        restaraunt_image = RestaurantImage(image_key=str(uuid4()),image_data=args['Filedata'].file.getvalue())
+        restaraunt_image.put()
+        return restaraunt_image.image_key
+    
+    @cherrypy.expose
+    def get_image(self,key):
+        images = db.GqlQuery("SELECT * FROM RestaurantImage WHERE image_key = :1", key)
+        image = images.get()
+        if image != None:
+            cherrypy.response.headers['Content-Type']= 'image'
+            return image.image_data
+     
 
     @cherrypy.expose(alias="favicon.ico")
     def favicon(self):

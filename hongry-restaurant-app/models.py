@@ -3,8 +3,8 @@ from google.appengine.ext import db
 import rest
 
 class RestaurantImage(db.Model):
-    image_data = db.StringProperty()
-
+   image_key = db.StringProperty(required=True)
+   image_data = db.BlobProperty(required=True)
 
 class Restaurant(db.Model):
     name = db.StringProperty()

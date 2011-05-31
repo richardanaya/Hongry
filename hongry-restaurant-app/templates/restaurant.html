@@ -5,11 +5,35 @@
 	ID: <input id="mi_id_${mid}" class="texbox_normal" type="text"/> 
 	<div style="float:right">Category: <input id="mi_p0_${mid}" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_${mid}" class="texbox_normal" type="text"/></div><br/>
 	Name: <input id="mi_name_${mid}" class="texbox_normal" type="text"/> Description: <input id="mi_description_${mid}" class="mi_description texbox_very_long" type="text"/><br/>
-	Price: <input id="mi_price_${mid}" class="texbox_normal" type="text"/> 
-	Votes: <input id="mi_votes_${mid}" class="texbox_normal" type="text"/>
-	Image: <input id="mi_image_${mid}" class="texbox_normal" type="text"/>
+	Price: <input id="mi_price_${mid}" class="texbox_small" type="text"/> 
+	Votes: <input id="mi_votes_${mid}" class="texbox_small" type="text"/>
+	Image: <input id="mi_image_${mid}" class="texbox_normal" type="text"/><input id="mi_image_${mid}_file" class='uploader' type="file"/>
 	<a onclick="delete_menu_item('mi_${mid}');" style="float:right; font-size:10px; color: #c00; margin-top: 20px;">Remove</a>
 </div>
+</script>
+<script>
+    add_uploader = function(fileId,textboxId) {
+	$(document).ready(function() {
+	    $('#'+fileId).uploadify({
+		//'scriptData' : { 'app_id': '{{app_id}}'},
+		'uploader'  : '/js/uploadify.swf',
+		'script'    : '/upload_image',
+		'cancelImg' : '/img/cancel.png',
+		'auto'      : true,
+		'buttonText' : 'Upload',
+		'folder'    : '/',
+		'width':130,
+		'height':30,
+		'onComplete' : function( event, queueID, fileObj, response, data) {
+		    $('#'+textboxId).val('http://localhost:8083/get_image?key='+response);
+		},
+		'onError' : function( event, queueID, fileObj, response, data) {
+		    alert(response.toSource());
+		}
+	    });
+	    $("<style type='text/css'> #"+fileId+"Uploader{ margin-bottom:-10px; margin-left:5px } </style>").appendTo("head");
+	});
+    }
 </script>
 <style>
     #our_story_div {
@@ -24,7 +48,7 @@
 	font-size: 24px;
     }
     #general_info_div {
-	height: 220px;
+	height: 260px;
     }
     .special_div {
 	border: solid 1px #CCC;
@@ -35,6 +59,14 @@
 	margin-bottom: 5px;
     }
 
+    .uploader {
+	margin-left: 5px;
+    }
+
+    .texbox_small {
+	height: 20px;
+	width: 100px;
+    }
     .texbox_normal {
 	height: 20px;
 	width: 200px;
@@ -63,8 +95,10 @@
     Announcement #1: <input id="restaurant_announcement_0" class="texbox_long" type="text"/><br/>
     Announcement #2: <input id="restaurant_announcement_1" class="texbox_long" type="text"/><br/>
     Map Link: <input id="restaurant_map_link" class="texbox_long" type="text"/><br/>
-    Background Image: <input id="restaurant_background" class="texbox_normal" type="text"/><br/>
-    Logo Image: <input id="restaurant_logo" class="texbox_normal" type="text"/><br/>
+    Background Image: <input id="restaurant_background" class="texbox_normal" type="text"/><input id="restaurant_background_file"  type="file" />
+    <script type="text/javascript">add_uploader('restaurant_background_file','restaurant_background'); </script>
+    Logo Image: <input id="restaurant_logo" class="texbox_normal" type="text"/><input id="restaurant_logo_file"  type="file"/>
+    <script type="text/javascript">add_uploader('restaurant_logo_file','restaurant_logo'); </script>
 </div>
 <h3>Specials</h3><br/> 
     <div class="special_div">Header: <input id="special_header_0" class="texbox_normal" type="text"/> Text: <input id="special_text_0" class="texbox_very_long" type="text"/></div>
@@ -129,6 +163,7 @@
 		{ mid: i },
 	     ];
 	     $("#clientTemplate").tmpl(clientData).appendTo( "#menu_items" );
+	    add_uploader('mi_image_'+i+'_file','mi_image_'+i);
 	    vs('#mi_p0_'+i,current_restaurant.menuitem_parent_0,i);
 	    vs('#mi_p1_'+i,current_restaurant.menuitem_parent_1,i);
 	    vs('#mi_id_'+i,current_restaurant.menuitem_id,i);
@@ -243,6 +278,7 @@
 	{ mid: highest_menu_items },
 	];
 	$("#clientTemplate").tmpl(clientData).appendTo( "#menu_items" );
+	add_uploader('mi_image_'+highest_menu_items+'_file','mi_image_'+highest_menu_items);
 	highest_menu_items++;
     });
     $(document).ready(start);
