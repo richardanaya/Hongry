@@ -197,7 +197,7 @@ FrontPageScene = function () {
 
 FrontPageScene.prototype.drawHandler = function() {
     drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
-    drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,65);
+    drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,65,LOGO_WIDTH,LOGO_HEIGHT);
     drawButtons();
     ctx.drawImage(imgListItem,(320-250)/2,280,250,45);
     drawString(restaurant_data.announcement_0,(320-200)/2,287,200,40);
@@ -218,7 +218,7 @@ OurStoryScene = function() {
 
 OurStoryScene.prototype.drawHandler = function() {
       drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
-      drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,5);
+      drawImage(restaurant_data.image_logo,(WIDTH-LOGO_WIDTH)/2,5,LOGO_WIDTH,LOGO_HEIGHT);
       drawButtons();
       ctx.drawImage(imgListItem,20,LOGO_HEIGHT+10,WIDTH-40,LOGO_HEIGHT+10+14);
       drawStringPage(this.text,27,LOGO_HEIGHT+10+7,WIDTH-54,LOGO_HEIGHT+10,this.currentPage);

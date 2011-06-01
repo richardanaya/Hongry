@@ -25,7 +25,7 @@
 		'width':130,
 		'height':30,
 		'onComplete' : function( event, queueID, fileObj, response, data) {
-		    $('#'+textboxId).val('http://localhost:8083/get_image?key='+response);
+		    $('#'+textboxId).val('http://code-sandbox.appspot.com/get_image?key='+response);
 		},
 		'onError' : function( event, queueID, fileObj, response, data) {
 		    alert(response.toSource());
@@ -129,7 +129,7 @@
 	$.ajax({
 	    type: "POST",
 	    contentType: 'application/json',
-	    url:'http://localhost:8083/rest/restaurant',
+	    url:'/rest/restaurant',
 	    data: JSON.stringify(data),
 	    success: function(result) {
 		current_restaurant = data;
@@ -237,7 +237,7 @@
 	$.ajax({
 	    type: "PUT",
 	    contentType: 'application/json',
-	    url:'http://localhost:8083/rest/restaurant',
+	    url:'/rest/restaurant',
 	    data: JSON.stringify(data),
 	    success: function(result) {
 		$('#updated_div').css("display","none");
@@ -255,7 +255,7 @@
 
     start = function() {
 	$('#restaurant_save').click(save_restaurant);
-	$.getJSON('http://localhost:8083/rest/restaurant?feq_name={{ restaurant_id }}',
+	$.getJSON('/rest/restaurant?feq_name={{ restaurant_id }}',
 	function(data) { 
 	    if( data.list.restaurant ) {
 		current_restaurant = data.list.restaurant;
