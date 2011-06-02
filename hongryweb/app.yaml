@@ -11,6 +11,6 @@ handlers:
 - url: /images
   static_dir: images    
 - url: /es
-  static_dir: hongrymx    
+  static_dir: hongrymx2  
 - url: .*
   script: main.py
