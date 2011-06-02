@@ -216,8 +216,8 @@ HeirarchalListScene = function() {
 
     this.show_back = false;
 
-    this.current_parent_0 = -1;
-    this.current_parent_1 = -1;
+    this.current_parent_0 = "";
+    this.current_parent_1 = "";
     this.viewItems();
     this.title = "";
 }
@@ -243,8 +243,8 @@ HeirarchalListScene.prototype.drawHandler = function() {
 
 HeirarchalListScene.prototype.mouseDownHandler = function(x,y) {
     if(x<50&&y<50) {
-        if(this.current_parent_0 != -1) {
-            this.viewItems(-1,-1);
+        if(this.current_parent_0 != "") {
+            this.viewItems("","");
             this.show_back = false;
             return;
         }
@@ -279,8 +279,8 @@ HeirarchalListScene.prototype.viewItems = function(p0,p1) {
 
 HeirarchalListScene.prototype.itemTouched = function(i) {
     var touched_item = this.viewableItems[i];
-    if(this.hasMoreChildItems(i)) {
-        this.viewItems(touched_item,-1);
+    if(this.hasMoreChildItems(touched_item)) {
+        this.viewItems(touched_item,"");
         draw();
     }
     else {
@@ -298,8 +298,7 @@ HeirarchalListScene.prototype.getHeirarchalItemById = function(id) {
     return null;
 }
 
-HeirarchalListScene.prototype.hasMoreChildItems = function(i) {
-    var id = this.heirarchalData[i].id;
+HeirarchalListScene.prototype.hasMoreChildItems = function(id) {
     for( var i=0, length=this.heirarchalData.length; i<length; i++) {
         var it = this.heirarchalData[i];
         if( it.parent_0 == id || it.parent_1 == id) {

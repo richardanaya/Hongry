@@ -135,6 +135,8 @@ class HongryApplication(object):
  
     @cherrypy.expose
     def index(self):
+	if cherrypy.url().find('hongry.com.mx') != -1:
+	    redirect('/es/index.html')
         return get_template('frontpage.html').render(lang='en')
     
     @cherrypy.expose

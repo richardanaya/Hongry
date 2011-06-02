@@ -10,5 +10,7 @@ handlers:
   static_dir: javascript
 - url: /images
   static_dir: images    
+- url: /es
+  static_dir: hongrymx    
 - url: .*
   script: main.py

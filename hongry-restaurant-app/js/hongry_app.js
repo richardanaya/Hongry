@@ -68,24 +68,17 @@ var cached_images = [];
 
 getImage = function(index) {
     var image = null;
-    if( index == 0 ) { image = imgBackground; }
-    else if( index == 1 ) { image = imgLogo; }
-    else if( index == 2 ) { image =  imgTacos; }
-    else {
-	if( index in cached_images ) {
-	    return cached_images[index];
-	}
-	image = new Image();
-	image.loaded = false
-	image.onload = function() { 
-	    this.loaded = true;
-	    draw();
-	}
-	image.src = index;
-	cached_images[index] = image;
-	return image;
+    if( index in cached_images ) {
+	return cached_images[index];
     }
-    image.loaded = true
+    image = new Image();
+    image.loaded = false
+    image.onload = function() { 
+	this.loaded = true;
+	draw();
+    }
+    image.src = index;
+    cached_images[index] = image;
     return image;
 }
 
@@ -397,7 +390,7 @@ SpecialItemScene.prototype.drawHandler = function() {
     drawImage(restaurant_data.image_background,0,0,WIDTH,HEIGHT);
     var w = WIDTH-40;
     var h = 150;
-    drawImage(this.item.img,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
+    drawImage(restaurant_data.image_logo,(WIDTH-w)/2,(WIDTH-w)/2,w,h);
     drawButtons();
     ctx.drawImage(imgListItem,20,h+30,WIDTH-40,h+70+14);
     drawStringPage(this.item.text,35,h+30+7,WIDTH-60,h+70,this.currentPage);
