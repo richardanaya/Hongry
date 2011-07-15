@@ -10,7 +10,9 @@ Titanium.API.info("Contents of the file = " + contents.text);*/
 var path = Titanium.Filesystem.resourcesDirectory+"/www/index.html";
 Titanium.API.info(path);
 var webview = Titanium.UI.createWebView({url:path});
+webview.setBackgroundColor('#000');
 var win3 = Titanium.UI.createWindow({navBarHidden:true});
+win3.setBackgroundColor('#000');
 win3.add(webview);
 win3.open({modal:true});
 /*var url = 'http://www.codeboxed.com';

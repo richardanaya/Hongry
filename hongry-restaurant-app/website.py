@@ -9,13 +9,13 @@ class Root(object):
         return render("index.html",{"name":"Richard"})
     
     @cherrypy.expose
-    def restaurant(self,restaurant_id="TORCHY"):
+    def restaurant(self,restaurant_id="HONGRY"):
         return render("restaurant.html",{"restaurant_id":restaurant_id})
 
     @cherrypy.expose
     def restaurant_data(self):
 	q = Restaurant.all()
-	q.filter("name =", "TORCHY")
+	q.filter("name =", "HONGRY")
 	r = q.fetch(1)[0]
 
 	specials = ""
