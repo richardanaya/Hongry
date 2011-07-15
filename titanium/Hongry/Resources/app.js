@@ -7,7 +7,7 @@ f.write('this is the new file');
 var g = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, 'myFile.txt');
 var contents = g.read();
 Titanium.API.info("Contents of the file = " + contents.text);*/
-var path = Titanium.Filesystem.resourcesDirectory+"/www/index.html";
+var path = "http://www.hongry.com/restaurant";//Titanium.Filesystem.resourcesDirectory+"/www/index.html";
 Titanium.API.info(path);
 var webview = Titanium.UI.createWebView({url:path});
 webview.setBackgroundColor('#000');
