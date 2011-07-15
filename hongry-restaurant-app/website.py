@@ -5,12 +5,12 @@ from uuid import uuid4
 
 class Root(object):
     @cherrypy.expose
-    def index(self):
-        return render("index.html",{"name":"Richard"})
+    def restaurant(self):
+        return render("restaurant.html",{"name":"Richard"})
     
     @cherrypy.expose
-    def restaurant(self,restaurant_id="HONGRY"):
-        return render("restaurant.html",{"restaurant_id":restaurant_id})
+    def admin(self,restaurant_id="HONGRY"):
+        return render("admin.html",{"restaurant_id":restaurant_id})
 
     @cherrypy.expose
     def restaurant_data(self):
