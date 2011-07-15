@@ -5,6 +5,12 @@ from uuid import uuid4
 
 class Root(object):
     @cherrypy.expose
+    def index(self):
+	if cherrypy.url().find('hongry.com.mx') != -1:
+	    redirect('/es/index.html')
+	return render("frontpage.html",{"lang":"en"})
+
+    @cherrypy.expose
     def restaurant(self):
         return render("restaurant.html",{"name":"Richard"})
     

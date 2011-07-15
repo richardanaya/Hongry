@@ -1,0 +1,40 @@
+{% extends "master.html" %}
+{% block content %}
+    <div class="span-24 last">
+        <div><img src="/img/banner.jpg" style="vertical-align:bottom"/></div>
+        <div><img border="0" src="/img/shadow-bottom.png"/></div>
+        </table>            
+    </div>
+    
+    <div class="span-6">
+        <div>
+        <div class="center" style="height:55px"><img src="/img/fork-icon.png"/><img src="/img/be_mobile_{{lang}}.png" style="vertical-align:top; margin-top:7px; margin-left:10px"/></div>
+        {% if lang=='en' %}
+        Advertise your restaurant like never before on major mobile platforms. Manage the information you expose through the web.
+        {% elif lang=='es' %}
+        hola
+        {% endif %}
+        </div>
+    </div>
+    <div class="span-6">
+        <div>
+        <div class="center" style="height:55px"><img src="/img/fork-icon.png"/><img src="/img/market_yourself_{{lang}}.png" style="vertical-align:top; margin-top:7px; margin-left:10px"/></div>
+        We put your brand as Number One on iPhone and Android.  Be visible in a place customers look every day.
+        </div>
+    </div>
+    <div class="span-6">
+        <div>
+        <div class="center" style="height:55px"><img src="/img/fork-icon.png"/><img src="/img/ridiculously_easy_{{lang}}.png" style="vertical-align:top; margin-top:7px; margin-left:10px"/></div>
+        One touch and customers are instantly connected with your restaurant.  News, deals, and suggestions all right there.
+        </div>
+    </div>
+    <div class="span-6 last">
+        <div>
+        <div class="center" style="height:55px"><img src="/img/fork-icon.png"/><img src="/img/affordable_{{lang}}.png" style="vertical-align:top; margin-top:7px; margin-left:10px"/></div>
+        One low cost monthly subscription, all mobile platforms, and all tools.
+        <br/>
+        <br/>
+        <div class="center"><button style="padding:5px;width:180px; height:30px; background-position: center; background-repeat:no-repeat; background-image:url('/img/create_your_app.png'); "></button></div>
+        </div>
+    </div>
+{% endblock %}

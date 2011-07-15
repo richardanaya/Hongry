@@ -10,6 +10,8 @@ handlers:
   static_dir: js
 - url: /img
   static_dir: img
+- url: /images
+  static_dir: img
 - url: /es
   static_dir: hongrymx2  
 - url: .*
