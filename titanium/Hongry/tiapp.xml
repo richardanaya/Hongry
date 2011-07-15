@@ -3,10 +3,10 @@
 <id>com.hongry.hongryapp</id>
 <name>Hongry</name>
 <version>1.0</version>
-<publisher>Richard</publisher>
+<publisher>Hongry LLC</publisher>
 <url>http://www.hongry.com</url>
-<description>No description provided</description>
-<copyright>2011 by Richard</copyright>
+<description>An awesome restaurant.</description>
+<copyright>2011 by Hongry LLC</copyright>
 <icon>default_app_logo copy.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
