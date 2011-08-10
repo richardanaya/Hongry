@@ -2,12 +2,15 @@
 {% block content %}
 <script id="clientTemplate" type="text/html">
     <div id="mi_${mid}" class="special_div">
-	ID: <input id="mi_id_${mid}" class="texbox_normal" type="text"/> 
-	<div style="float:right">Category: <input id="mi_p0_${mid}" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_${mid}" class="texbox_normal" type="text"/></div><br/>
-	Name: <input id="mi_name_${mid}" class="texbox_normal" type="text"/> Description: <input id="mi_description_${mid}" class="mi_description texbox_very_long" type="text"/><br/>
-	Price: <input id="mi_price_${mid}" class="texbox_small" type="text"/> 
-	Votes: <input id="mi_votes_${mid}" class="texbox_small" type="text"/>
-	Image: <input id="mi_image_${mid}" class="texbox_normal" type="text"/><input id="mi_image_${mid}_file" class='uploader' type="file"/>
+	<!--ID: <input id="mi_id_${mid}" class="texbox_normal" type="text"/>-->
+	<!--<div style="float:right">Category: <input id="mi_p0_${mid}" class="texbox_normal" type="text"/> Subcategory: <input id="mi_p1_${mid}" class="texbox_normal" type="text"/></div><br/>-->
+    <div style="float: right;">Price: <input id="mi_price_${mid}" class="texbox_small" type="text"/></div>
+	<div>Name: <input id="mi_name_${mid}" style="margin-left:48px" class="texbox_normal" type="text"/></div>
+    <div style="float: right;"><input id="mi_description_${mid}" class="mi_description texbox_very_long" style="width: 390px; height: 50px" type="text"/></div>
+    <div>Description:</div>
+    <hr>
+	<!--Votes: <input id="mi_votes_${mid}" class="texbox_small" type="text"/>-->
+	Image: <input id="mi_image_${mid}" style="margin-left:46px" class="texbox_normal" type="text"/><input id="mi_image_${mid}_file" class='uploader' type="file"/>
 	<a onclick="delete_menu_item('mi_${mid}');" style="float:right; font-size:10px; color: #c00; margin-top: 20px;">Remove</a>
 </div>
 </script>
@@ -92,12 +95,12 @@
     <textarea id="restaurant_our_story"></textarea><br/>
 </div>
 <br/>
-    Announcement #1: <input id="restaurant_announcement_0" class="texbox_long" type="text"/><br/>
-    Announcement #2: <input id="restaurant_announcement_1" class="texbox_long" type="text"/><br/>
-    Map Link: <input id="restaurant_map_link" class="texbox_long" type="text"/><br/>
+    Announcement #1: <input id="restaurant_announcement_0" style="margin-left: 6px" class="texbox_long" type="text"/><br/>
+    Announcement #2: <input id="restaurant_announcement_1" style="margin-left: 6px" class="texbox_long" type="text"/><br/>
+    Map Link: <input id="restaurant_map_link" style="margin-left: 87px" class="texbox_long" type="text"/><br/>
     Background Image: <input id="restaurant_background" class="texbox_normal" type="text"/><input id="restaurant_background_file"  type="file" />
     <script type="text/javascript">add_uploader('restaurant_background_file','restaurant_background'); </script>
-    Logo Image: <input id="restaurant_logo" class="texbox_normal" type="text"/><input id="restaurant_logo_file"  type="file"/>
+    Logo Image: <input id="restaurant_logo" class="texbox_normal" style="margin-left: 62px" type="text"/><input id="restaurant_logo_file"  type="file"/>
     <script type="text/javascript">add_uploader('restaurant_logo_file','restaurant_logo'); </script>
 </div>
 <h3>Specials</h3><br/> 
@@ -105,12 +108,39 @@
     <div class="special_div">Header: <input id="special_header_1" class="texbox_normal" type="text"/> Text: <input id="special_text_1" class="texbox_very_long" type="text"/></div>
     <div class="special_div">Header: <input id="special_header_2" class="texbox_normal" type="text"/> Text: <input id="special_text_2" class="texbox_very_long" type="text"/></div>
     <br/>
-    <h3>Menu Item</h3><br/>  
-    <div id="menu_items">
+    <h3>Menu Item</h3><br/>
+    <div>
+	<div class="menu_categories_list">
+	    <div class="menu_categories_list_header">
+		Category
+		<img id="button_remove_category" class="button_header" src="/images/add.png"></img>
+		<img id="button_add_category" class="button_header" src="/images/minus.png"></img>
+	    </div>
+	    <div id="menu_categories">
+        <div>None</div>
+		<div>Hamburgers</div>
+		<div>Drinks</div>
+	    </div>
+	    <div class="menu_subcategories_list_header">
+		Subcategory
+		<img id="button_remove_subcategory" class="button_header" src="/images/add.png"></img>
+		<img id="button_add_subcategory" class="button_header" src="/images/minus.png"></img>
+	    </div>
+	    <div id="menu_subcategories">
+        <div>None</div>
+		<div>Alchoholic</div>
+		<div>Desert</div>
+	    </div>
+	</div>
+        <div class="menu_items_list">
+                <div id="menu_items" >
+                </div>
+                <div class="special_div" style="text-align:center">
+                <a id="add_another_item_button">Add another item</a>
+                </div>
+        </div>
     </div>
-    <div class="special_div" style="text-align:center">
-	<a id="add_another_item_button">Add another item</a>
-    </div>
+    <hr>
     <div id="updated_div" class="special_div" style="text-align:center; background-color: #0d0; display: none">
 	Updated Succesfully
     </div>

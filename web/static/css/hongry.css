@@ -1,0 +1,64 @@
+
+
+.menu_categories_list_header {
+    background-color: #DDD;
+    color: white;
+    border: solid 1px #CCC;
+    
+}
+
+.menu_subcategories_list_header {
+    background-color: #DDD;
+    color: white;
+    border: solid 1px #CCC;
+}
+
+.menu_categories_list {
+    float: left;
+    width: 175px;
+    border: solid 1px #CCC;
+}
+
+#menu_categories {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#menu_subcategories {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.menu_subcategories_list {
+    float: left;
+    width: 175px;
+    border: solid 1px #CCC;
+}
+
+.menu_items_list {
+    margin-left: 87px;
+    float: left;
+    width: 530px;
+    border: solid 1px #CCC;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+hr {
+    clear: both;
+    height: 0px;
+}
+
+.button_header {
+    margin-top: 5px;
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
+    float: right;
+}
