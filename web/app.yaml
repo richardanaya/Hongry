@@ -5,14 +5,14 @@ api_version: 1
 
 handlers:
 - url: /css
-  static_dir: css
+  static_dir: static/css
 - url: /js
-  static_dir: js
+  static_dir: static/js
 - url: /img
-  static_dir: img
+  static_dir: static/img
 - url: /images
-  static_dir: img
+  static_dir: static/img
 - url: /es
-  static_dir: hongrymx2  
+  static_dir: static/es 
 - url: .*
   script: lib/run_server.py
