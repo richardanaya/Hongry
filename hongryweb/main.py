@@ -132,7 +132,11 @@ class HongryApplication(object):
     @cherrypy.expose
     def dashboard(self,app_id):
         return get_template('dashboard.html').render(app_id=app_id)
- 
+
+    @cherrypy.expose
+    def about(self):
+        return get_template('about.html').render()
+
     @cherrypy.expose
     def index(self):
 	if cherrypy.url().find('hongry.com.mx') != -1:

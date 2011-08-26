@@ -11,6 +11,14 @@ class Root(object):
 	return render("frontpage.html",{"lang":"en"})
 
     @cherrypy.expose
+    def about(self):
+        return render("about.html",{})
+
+    @cherrypy.expose
+    def services(self):
+        return render("services.html",{})
+
+    @cherrypy.expose
     def restaurant(self):
         return render("restaurant.html",{"name":"Richard"})
     
